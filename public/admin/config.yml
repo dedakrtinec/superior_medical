@@ -1,29 +1,62 @@
 # public/admin/config.yml
 backend:
   name: git-gateway
-  branch: master # nebo master podle vaší větve
-  commit_messages:
-    create: 'Create {{collection}} "{{slug}}"'
-    update: 'Update {{collection}} "{{slug}}"'
-    delete: 'Delete {{collection}} "{{slug}}"'
-    uploadMedia: '[skip ci] Upload "{{path}}"'
-    deleteMedia: '[skip ci] Delete "{{path}}"'
+  branch: master # používáte master větev
 
-# Tyto URL by měly odpovídat vašemu webu
-site_url: https://superiormedical.netlify.app
-display_url: https://superiormedical.netlify.app
-
+# Nastavení médií
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
+# Nastavení pro náhled v CMS
+site_url: https://superiormedical.netlify.app
+display_url: https://superiormedical.netlify.app
+
+# Kolekce pro blogy
 collections:
   - name: "blog"
     label: "Blog"
-    folder: "src/content/blog"
+    folder: "src/blog"
     create: true
+    delete: true
+    format: "markdown"
+    extension: "md"
     slug: "{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Description", name: "description", widget: "string"}
-      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Excerpt", name: "excerpt", widget: "text", required: true}
+      - {label: "Author", name: "author", widget: "string", required: true}
+      - {label: "Author Role", name: "authorRole", widget: "string", required: true}
+      - {
+          label: "Publish Date", 
+          name: "publishDate", 
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: true
+        }
+      - {label: "Image", name: "image", widget: "string", required: true}
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          allow_add: true,
+          field: {label: "Tag", name: "tag", widget: "string"},
+          required: false
+        }
+      - {
+          label: "Content", 
+          name: "body", 
+          widget: "markdown",
+          required: true,
+          buttons: [
+            "bold",
+            "italic",
+            "code",
+            "link",
+            "heading-one",
+            "heading-two",
+            "heading-three",
+            "quote",
+            "bulleted-list",
+            "numbered-list"
+          ]
+        }
