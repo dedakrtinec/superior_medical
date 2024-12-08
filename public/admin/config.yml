@@ -1,9 +1,21 @@
+# public/admin/config.yml
 backend:
   name: git-gateway
   branch: master
+  commit_messages:
+    create: 'Create blog post: "{{slug}}"'
+    update: 'Update blog post: "{{slug}}"'
+    delete: 'Delete blog post: "{{slug}}"'
+    uploadMedia: 'Upload media: "{{path}}"'
+    deleteMedia: 'Delete media: "{{path}}"'
 
+# Nastavení médií
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
+
+# URL webu
+site_url: https://superiormedical.netlify.app
+display_url: https://superiormedical.netlify.app
 
 collections:
   - name: "blog"
@@ -11,14 +23,85 @@ collections:
     folder: "src/blog"
     create: true
     delete: true
-    extension: "md"    # ponecháme pouze extension
+    extension: "md"
     slug: "{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Excerpt", name: "excerpt", widget: "text"}
-      - {label: "Author", name: "author", widget: "string"}
-      - {label: "Author Role", name: "authorRole", widget: "string"}
-      - {label: "Publish Date", name: "publishDate", widget: "datetime"}
-      - {label: "Image", name: "image", widget: "string"}
-      - {label: "Tags", name: "tags", widget: "list"}
-      - {label: "Body", name: "body", widget: "markdown"}
+      - {
+          label: "Title",
+          name: "title",
+          widget: "string",
+          required: true,
+          hint: "Hlavní nadpis článku"
+        }
+      - {
+          label: "Excerpt",
+          name: "excerpt",
+          widget: "text",
+          required: true,
+          hint: "Krátký popis článku pro náhled"
+        }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "string",
+          required: true,
+          hint: "Jméno autora včetně titulů"
+        }
+      - {
+          label: "Author Role",
+          name: "authorRole",
+          widget: "string",
+          required: true,
+          hint: "Specializace nebo role autora"
+        }
+      - {
+          label: "Publish Date",
+          name: "publishDate",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          date_format: "DD.MM.YYYY",
+          time_format: false,
+          required: true
+        }
+      - {
+          label: "Image",
+          name: "image",
+          widget: "string",
+          required: true,
+          hint: "URL obrázku pro článek"
+        }
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          allow_add: true,
+          min: 1,
+          max: 5,
+          field: {
+            label: "Tag",
+            name: "tag",
+            widget: "string"
+          },
+          hint: "Přidejte 1-5 tagů pro kategorizaci článku"
+        }
+      - {
+          label: "Content",
+          name: "body",
+          widget: "markdown",
+          required: true,
+          buttons: [
+            "bold",
+            "italic",
+            "code",
+            "link",
+            "heading-one",
+            "heading-two",
+            "heading-three",
+            "quote",
+            "bulleted-list",
+            "numbered-list"
+          ],
+          editor_components: [],
+          modes: ["rich_text", "raw"],
+          hint: "Hlavní obsah článku v Markdown formátu"
+        }
