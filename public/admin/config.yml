@@ -11,8 +11,7 @@ collections:
     folder: "src/blog"
     create: true
     delete: true
-    format: "markdown"
-    extension: "md"
+    extension: "md"    # ponecháme pouze extension
     slug: "{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
