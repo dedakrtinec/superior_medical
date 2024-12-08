@@ -1,6 +1,6 @@
 ackend:
   name: git-gateway
-  branch: main # Název vaší hlavní větve
+  branch: master # Název vaší hlavní větve
 
 media_folder: "public/images/uploads" # Kam se budou ukládat nahrané obrázky
 public_folder: "/images/uploads" # Prefix pro URL obrázků
