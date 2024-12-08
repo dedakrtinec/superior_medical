@@ -1,9 +1,13 @@
 backend:
   name: git-gateway
-  branch: master # Název vaší hlavní větve
+  branch: master
+  cors_proxy: https://api.netlify.com
 
-media_folder: "public/images/uploads" # Kam se budou ukládat nahrané obrázky
-public_folder: "/images/uploads" # Prefix pro URL obrázků
+site_url: https://superiormedical.netlify.app
+display_url: https://superiormedical.netlify.app
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "blog" # Příklad kolekce pro blog
