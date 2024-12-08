@@ -1,7 +1,7 @@
 # public/admin/config.yml
 backend:
   name: git-gateway
-  branch: main # nebo master podle vaší větve
+  branch: master # nebo master podle vaší větve
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
     update: 'Update {{collection}} "{{slug}}"'
