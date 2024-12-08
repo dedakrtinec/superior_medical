@@ -1,0 +1,86 @@
+---
+const prices = [
+  {
+    name: "Základní balíček",
+    price: "29 900 Kč",
+    description: "Zavedení intragastrického balónu Spatz3",
+    features: [
+      "Úvodní konzultace",
+      "Zavedení balónu",
+      "3 kontrolní vyšetření",
+      "Odstranění balónu",
+      "Základní nutriční poradenství"
+    ]
+  },
+  {
+    name: "Komplexní péče",
+    price: "39 900 Kč",
+    description: "Rozšířený program s individuální péčí",
+    features: [
+      "Vše ze základního balíčku",
+      "6 kontrolních vyšetření",
+      "Pravidelné nutriční poradenství",
+      "Psychologická podpora",
+      "Úprava objemu balónu dle potřeby"
+    ],
+    highlighted: true
+  },
+  {
+    name: "VIP program",
+    price: "59 900 Kč",
+    description: "Maximální péče a podpora",
+    features: [
+      "Vše z komplexní péče",
+      "Neomezený počet konzultací",
+      "24/7 podpora na telefonu",
+      "Osobní nutriční specialista",
+      "Kompletní wellness program",
+      "Přednostní termíny"
+    ]
+  }
+];
+---
+
+<section id="pricing" class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-4 text-center">Ceník služeb</h2>
+    <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+      Nabízíme různé varianty péče, aby si každý mohl vybrat program, který nejlépe odpovídá jeho potřebám a možnostem.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {prices.map((price) => (
+        <div class={`bg-white rounded-lg shadow-lg overflow-hidden ${price.highlighted ? 'ring-2 ring-blue-500 transform md:-translate-y-4' : ''}`}>
+          <div class="p-8">
+            <h3 class="text-2xl font-bold mb-2">{price.name}</h3>
+            <p class="text-gray-600 mb-4">{price.description}</p>
+            <p class="text-3xl font-bold text-blue-800 mb-6">{price.price}</p>
+            
+            <ul class="space-y-3">
+              {price.features.map((feature) => (
+                <li class="flex items-start">
+                  <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button class={`w-full mt-8 px-6 py-3 rounded-lg text-center font-semibold transition-colors
+              ${price.highlighted 
+                ? 'bg-blue-800 text-white hover:bg-blue-700' 
+                : 'bg-gray-100 text-blue-800 hover:bg-gray-200'}`}>
+              Objednat konzultaci
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center text-gray-600">
+      <p>Všechny ceny jsou včetně DPH. Možnost splátkového kalendáře.</p>
+      <p class="mt-2">Pro více informací nás neváhejte kontaktovat.</p>
+    </div>
+  </div>
+</section>

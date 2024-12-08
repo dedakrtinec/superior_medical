@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Products from '../components/Products.astro';
+import Partners from '../components/Partners.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import Pricing from '../components/Pricing.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+
+// Pokud používáte content collections, je potřeba přidat konfiguraci
+import { getCollection } from 'astro:content';
+
+// Získání blogových příspěvků pro BlogPreview
+const allPosts = await getCollection('blog');
+---
+
+<Layout title="Superior Medical - Špičkové zdravotnické pomůcky">
+  <Header />
+  <main>
+    <Hero />
+    <Products />
+    <Pricing />
+    <BlogPreview posts={allPosts} />
+    <Partners />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>

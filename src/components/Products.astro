@@ -1,0 +1,101 @@
+---
+const treatmentSteps = [
+  {
+    step: 1,
+    title: "Zavedení balonu",
+    description: "Endoskopický zákrok trvá přibližně 20 minut a probíhá v sedaci."
+  },
+  {
+    step: 2,
+    title: "Úprava objemu",
+    description: "V průběhu léčby může lékař balon nastavit, aby dosáhl optimálních výsledků."
+  },
+  {
+    step: 3,
+    title: "Odstranění balonu",
+    description: "Po 12 měsících je balon opět endoskopicky odstraněn."
+  }
+];
+
+const benefits = [
+  {
+    title: "Nastavitelný objem",
+    description: "Možnost přizpůsobení velikosti balonu umožňuje lékařům optimalizovat účinky balonu podle potřeb pacienta."
+  },
+  {
+    title: "Dlouhodobý efekt",
+    description: "Spatz je jediný intragastrický balon na trhu, který může zůstat v žaludku po dobu 12 měsíců, což vede k trvalejším výsledkům."
+  },
+  {
+    title: "Minimalizace nežádoucích účinků",
+    description: "Úprava objemu balonu může pomoci zmírnit případné nepříjemné pocity nebo snížit počáteční problémy s adaptací."
+  },
+  {
+    title: "Nechirurgický zákrok",
+    description: "Zavedení i odstranění balonu se provádí endoskopicky, bez nutnosti operace, což znamená nižší rizika a kratší dobu zotavení."
+  }
+];
+---
+<section id="products" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-center">Intragastrické balóny SPATZ</h2>
+    
+    <!-- Introduction -->
+    <div class="prose max-w-none mb-12">
+      <p class="text-lg text-gray-600">
+        Intragastrický balon Spatz představuje inovativní a účinnou metodu pro léčbu nadváhy a obezity, navrženou tak, aby pomohla pacientům dosáhnout dlouhodobých výsledků v oblasti úbytku hmotnosti bez potřeby chirurgických zákroků. Tento jedinečný balon je na rozdíl od jiných intragastrických balonů na trhu nastavitelný, což umožňuje jeho úpravu podle potřeb pacienta během léčby, a prodloužená doba působení až na 12 měsíců zvyšuje účinnost hubnutí.
+      </p>
+    </div>
+
+    <!-- How it works -->
+    <div class="bg-gray-50 p-8 rounded-lg mb-12">
+      <h3 class="text-2xl font-semibold mb-4">Jak funguje intragastrický balon Spatz?</h3>
+      <p class="text-gray-600">
+        Spatz balon je zaveden do žaludku endoskopicky během minimálně invazivního zákroku. Po naplnění fyziologickým roztokem zabírá část objemu žaludku, což pacientovi pomáhá dosáhnout pocitu sytosti s menším množstvím jídla. Výjimečnost systému Spatz spočívá ve schopnosti upravit objem balonu během léčby – pokud pacient například dosahuje nižšího úbytku hmotnosti, lze balon přenastavit tak, aby lépe podporoval hubnutí.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <!-- Benefits -->
+      <div class="bg-blue-50 p-6 rounded-lg">
+        <h3 class="text-xl font-semibold mb-6">Výhody balonu Spatz</h3>
+        <div class="space-y-4">
+          {benefits.map(benefit => (
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-800 flex-shrink-0 mt-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <div class="ml-2">
+                <strong>{benefit.title}:</strong> {benefit.description}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Suitable for & Treatment -->
+      <div class="space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h3 class="text-xl font-semibold mb-4">Pro koho je Spatz balon vhodný?</h3>
+          <p class="text-gray-600">
+            Spatz balon je ideální volbou pro osoby, které se dlouhodobě potýkají s nadváhou či obezitou a hledají účinné řešení bez nutnosti podstoupit bariatrickou operaci. Tento balon je obvykle doporučován pro pacienty s BMI mezi 27 a 40, kteří nedosáhli úspěchu tradičními metodami hubnutí.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h3 class="text-xl font-semibold mb-4">Průběh léčby</h3>
+          <div class="space-y-4">
+            {treatmentSteps.map(step => (
+              <div class="flex items-start">
+                <span class="font-bold mr-3">{step.step}.</span>
+                <div>
+                  <strong>{step.title}:</strong> {step.description}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

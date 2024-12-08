@@ -1,0 +1,16 @@
+ackend:
+  name: git-gateway
+  branch: main # Název vaší hlavní větve
+
+media_folder: "public/images/uploads" # Kam se budou ukládat nahrané obrázky
+public_folder: "/images/uploads" # Prefix pro URL obrázků
+
+collections:
+  - name: "blog" # Příklad kolekce pro blog
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    fields:
+      - { label: "Titulek", name: "title", widget: "string" }
+      - { label: "Datum publikace", name: "date", widget: "datetime" }
+      - { label: "Obsah", name: "body", widget: "markdown" }

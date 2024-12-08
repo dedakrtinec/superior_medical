@@ -1,0 +1,163 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+type BlogPost = CollectionEntry<'blog'>;
+
+const posts = await getCollection('blog');
+
+// Explicitní typování pro tagy
+const tagSet = new Set<string>();
+posts.forEach((post: BlogPost) => {
+  post.data.tags.forEach((tag: string) => tagSet.add(tag));
+});
+const allTags = Array.from(tagSet);
+
+const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+---
+
+<Layout title="Blog - Superior Medical">
+  <Header />
+  <main class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-4xl font-bold mb-8 text-center">Blog</h1>
+      
+      <div class="mb-12">
+        <div class="w-full max-w-xl mx-auto mb-8">
+          <input
+            type="text"
+            id="search"
+            placeholder="Hledat v článcích..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="mb-8">
+          <h3 class="text-lg font-semibold mb-3">Filtrovat podle témat</h3>
+          <div class="flex flex-wrap gap-2" id="tag-container">
+            {allTags.map((tag: string) => (
+              <button class="px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-full text-sm tag-filter" data-tag={tag}>
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
+        {sortedPosts.map((post: BlogPost) => (
+          <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <a href={`/blog/${post.slug}`}>
+              <img
+                src={post.data.image || '/api/placeholder/800/400'}
+                alt={post.data.title}
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex gap-2 mb-3">
+                  {post.data.tags.map((tag: string) => (
+                    <span class="tag px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">{tag}</span>
+                  ))}
+                </div>
+                <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
+                <p class="text-gray-600 mb-4">{post.data.excerpt}</p>
+                <div class="flex items-center justify-between text-sm text-gray-500">
+                  <span>{post.data.author}</span>
+                  <time>{new Date(post.data.publishDate).toLocaleDateString('cs-CZ')}</time>
+                </div>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+interface HTMLElementWithDataset extends HTMLElement {
+  dataset: DOMStringMap;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search') as HTMLInputElement;
+  const blogPosts = document.getElementById('blog-posts');
+  let currentTag: string | null = null;
+
+  // Přidáme funkci pro získání tagu z URL
+  function getTagFromURL(): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('tag');
+  }
+
+  // Přidáme funkci pro aktualizaci URL
+  function updateURL(tag: string | null) {
+    const url = new URL(window.location.href);
+    if (tag) {
+      url.searchParams.set('tag', tag);
+    } else {
+      url.searchParams.delete('tag');
+    }
+    window.history.pushState({}, '', url);
+  }
+
+  function filterPosts(): void {
+    if (!searchInput || !blogPosts) return;
+
+    const searchTerm = searchInput.value.toLowerCase();
+    const posts = blogPosts.querySelectorAll('article');
+
+    posts.forEach((post: Element) => {
+      const title = post.querySelector('h2')?.textContent?.toLowerCase() || '';
+      const excerpt = post.querySelector('p')?.textContent?.toLowerCase() || '';
+      const tags = Array.from(post.querySelectorAll('.tag'))
+        .map(tag => tag.textContent?.toLowerCase() || '');
+
+      const matchesSearch = title.includes(searchTerm) || excerpt.includes(searchTerm);
+      const matchesTag = !currentTag || tags.includes(currentTag.toLowerCase());
+
+      (post as HTMLElement).style.display = matchesSearch && matchesTag ? 'block' : 'none';
+    });
+  }
+
+  // Přidáme funkci pro aktivaci tagu
+  function activateTag(tag: string | null) {
+    currentTag = tag;
+    document.querySelectorAll('.tag-filter').forEach((btn: Element) => {
+      const tagBtn = btn as HTMLElementWithDataset;
+      if (tagBtn.dataset.tag === currentTag) {
+        btn.classList.add('bg-blue-500', 'text-white');
+      } else {
+        btn.classList.remove('bg-blue-500', 'text-white');
+      }
+    });
+    filterPosts();
+    updateURL(tag);
+  }
+
+  // Zpracování URL parametru při načtení stránky
+  const urlTag = getTagFromURL();
+  if (urlTag) {
+    activateTag(urlTag);
+  }
+
+  searchInput?.addEventListener('input', filterPosts);
+
+  document.querySelectorAll('.tag-filter').forEach((button: Element) => {
+    button.addEventListener('click', () => {
+      const tagButton = button as HTMLElementWithDataset;
+      const tag = tagButton.dataset.tag;
+      if (!tag) return;
+
+      const newTag = currentTag === tag ? null : tag;
+      activateTag(newTag);
+    });
+  });
+});
+</script>
