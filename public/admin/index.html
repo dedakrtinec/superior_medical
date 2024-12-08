@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
+    <!-- Přidáme hlavní CSS Static CMS -->
+    <link href="https://unpkg.com/@staticcms/app@^3.4.5/dist/main.css" rel="stylesheet" />
     <style>
         /* Základní reset a nastavení */
         html, body {
@@ -83,10 +85,20 @@
     <!-- Nakonec Static CMS -->
     <script src="https://unpkg.com/@staticcms/app@^3.4.5/dist/static-cms-app.js"></script>
     
-    <!-- Inicializace -->
+    <!-- Inicializace s konfigurací -->
     <script>
       window.addEventListener('load', function() {
-        window.CMS.init();
+        window.CMS.init({
+          config: {
+            // Zde můžeme přidat další konfiguraci pro vzhled
+            locale: 'cs',
+            display: {
+              // Nastavení zobrazení
+              layout: 'regular', // nebo 'compact'
+              sticky: true, // fixní hlavička
+            }
+          }
+        });
       });
     </script>
   </body>
