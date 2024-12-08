@@ -1,8 +1,15 @@
+# public/admin/config.yml
 backend:
   name: git-gateway
-  branch: master
-  cors_proxy: https://api.netlify.com
+  branch: main # nebo master podle vaší větve
+  commit_messages:
+    create: 'Create {{collection}} "{{slug}}"'
+    update: 'Update {{collection}} "{{slug}}"'
+    delete: 'Delete {{collection}} "{{slug}}"'
+    uploadMedia: '[skip ci] Upload "{{path}}"'
+    deleteMedia: '[skip ci] Delete "{{path}}"'
 
+# Tyto URL by měly odpovídat vašemu webu
 site_url: https://superiormedical.netlify.app
 display_url: https://superiormedical.netlify.app
 
@@ -10,11 +17,13 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "blog" # Příklad kolekce pro blog
+  - name: "blog"
     label: "Blog"
     folder: "src/content/blog"
     create: true
+    slug: "{{slug}}"
     fields:
-      - { label: "Titulek", name: "title", widget: "string" }
-      - { label: "Datum publikace", name: "date", widget: "datetime" }
-      - { label: "Obsah", name: "body", widget: "markdown" }
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}

@@ -1,18 +1,27 @@
+<!-- public/admin/index.html -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <!-- Přidáme cors anywhere -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://identity.netlify.com https://unpkg.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://identity.netlify.com;">
-    
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <script src="https://unpkg.com/@staticcms/core@^3.4.5/dist/static-cms-core.js"></script>
+    <!-- Nejdřív načteme React -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Pak Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Nakonec Static CMS -->
+    <script src="https://unpkg.com/@staticcms/app@^3.4.5/dist/static-cms-app.js"></script>
+    
+    <!-- Inicializace -->
     <script>
-      window.CMS.init();
+      window.addEventListener('load', function() {
+        window.CMS.init();
+      });
     </script>
   </body>
 </html>
