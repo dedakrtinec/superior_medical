@@ -8,10 +8,10 @@ public_folder: "/images/uploads"
 collections:
   - name: "blog"
     label: "Blog"
-    folder: "src/blog"
+    folder: "src/content/blog"
     create: true
     delete: true
-    extension: "md"    # ponecháme pouze extension
+    extension: "md"
     slug: "{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
@@ -20,5 +20,5 @@ collections:
       - {label: "Author Role", name: "authorRole", widget: "string"}
       - {label: "Publish Date", name: "publishDate", widget: "datetime"}
       - {label: "Image", name: "image", widget: "string"}
-      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Tags", name: "tags", widget: "list", default: ["zdraví"]}
       - {label: "Body", name: "body", widget: "markdown"}
