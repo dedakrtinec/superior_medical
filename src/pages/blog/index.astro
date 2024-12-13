@@ -8,6 +8,7 @@ import type { CollectionEntry } from 'astro:content';
 type BlogPost = CollectionEntry<'blog'>;
 
 const posts = await getCollection('blog');
+console.log('Načtené posty:', posts);
 
 // Explicitní typování pro tagy
 const tagSet = new Set<string>();
