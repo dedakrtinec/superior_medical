@@ -14,52 +14,70 @@
   <script>
     window.addEventListener('load', function() {
       if (window.CMS) {
-        CMS.init({
-          config: {
-            // ... zbytek konfigurace ...
-            locale: 'cs',
-            i18n: {
-              locales: {
-                cs: {
-                  editor: {
-                    toolbar: {
-                      bold: 'Tučně',
-                      italic: 'Kurzíva',
-                      code: 'Kód',
-                      link: 'Odkaz',
-                      heading: 'Nadpis',
-                      headings: {
-                        heading1: 'Nadpis 1',
-                        heading2: 'Nadpis 2',
-                        heading3: 'Nadpis 3',
-                        heading4: 'Nadpis 4',
-                        heading5: 'Nadpis 5',
-                        heading6: 'Nadpis 6'
+        // Nejdřív načteme config
+        fetch('/admin/config.yml')
+          .then(response => response.text())
+          .then(configYml => {
+            // Pak inicializujeme CMS s veškerou konfigurací včetně překladů
+            CMS.init({
+              config: {
+                ...YAML.parse(configYml),
+                locale: 'cs',
+                i18n: {
+                  locales: {
+                    cs: {
+                      editor: {
+                        toolbar: {
+                          bold: 'Tučně',
+                          italic: 'Kurzíva',
+                          code: 'Kód',
+                          link: 'Odkaz',
+                          heading: 'Nadpis',
+                          headings: {
+                            heading1: 'Nadpis 1',
+                            heading2: 'Nadpis 2',
+                            heading3: 'Nadpis 3',
+                            heading4: 'Nadpis 4',
+                            heading5: 'Nadpis 5',
+                            heading6: 'Nadpis 6'
+                          },
+                          bulletedList: 'Seznam s odrážkami',
+                          numberedList: 'Číslovaný seznam',
+                          addLink: 'Přidat odkaz',
+                          removeLink: 'Odstranit odkaz',
+                          quote: 'Citace',
+                          strikethrough: 'Přeškrtnuté',
+                          table: 'Tabulka',
+                          media: 'Média',
+                          undo: 'Zpět',
+                          redo: 'Vpřed'
+                        }
                       },
-                      bulletedList: 'Seznam s odrážkami',
-                      numberedList: 'Číslovaný seznam',
-                      addLink: 'Přidat odkaz',
-                      removeLink: 'Odstranit odkaz',
-                      quote: 'Citace',
-                      strikethrough: 'Přeškrtnuté',
-                      table: 'Tabulka',
-                      media: 'Média',
-                      undo: 'Zpět',
-                      redo: 'Vpřed'
+                      mediaLibrary: {
+                        mediaLibrary: 'Knihovna médií',
+                        mediaLibraryModal: {
+                          loading: 'Načítání...',
+                          noResults: 'Žádné výsledky',
+                          noAssetsFound: 'Nenalezena žádná média',
+                          noImagesFound: 'Nenalezeny žádné obrázky',
+                          private: 'Soukromé',
+                          images: 'Obrázky',
+                          mediaAssets: 'Média',
+                          search: 'Vyhledat...',
+                          uploading: 'Nahrávání...',
+                          upload: 'Nahrát',
+                          download: 'Stáhnout',
+                          deleting: 'Mazání...',
+                          deleteSelected: 'Smazat vybrané',
+                          chooseSelected: 'Vybrat vybrané'
+                        }
+                      }
                     }
                   }
                 }
               }
-            }
-          }
-        });
-
-        document.title = 'Správa obsahu';
-
-        fetch('/admin/config.yml')
-          .then(response => response.text())
-          .then(configYml => {
-            CMS.init();
+            });
+            document.title = 'Správa obsahu';
           })
           .catch(error => {
             console.error('Nepodařilo se načíst config.yml:', error);
