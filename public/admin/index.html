@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+    <title>Správa obsahu</title>
   </head>
   <body>
     <!-- Načteme React před čímkoliv jiným -->
@@ -23,7 +23,18 @@
       window.addEventListener('load', function() {
         // Kontrola, zda je CMS dostupný
         if (window.CMS) {
-          window.CMS.init();
+          // Nastavení češtiny
+          CMS.registerLocale('cs', {
+            locale: 'cs',
+            language: 'Czech'
+          });
+
+          // Inicializace CMS s českým jazykem
+          CMS.init({
+            config: {
+              locale: 'cs'
+            }
+          });
         } else {
           console.error('CMS není dostupný');
         }

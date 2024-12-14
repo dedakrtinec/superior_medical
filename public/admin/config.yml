@@ -22,3 +22,5 @@ collections:
       - {label: "Image", name: "image", widget: "image"}
       - {label: "Tags", name: "tags", widget: "list", default: ["zdraví"]}
       - {label: "Body", name: "body", widget: "markdown"}
+
+locale: cs
