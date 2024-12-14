@@ -12,46 +12,60 @@
   <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
-     window.addEventListener('load', function() {
-      if (window.CMS) {
-        // Registrace české lokalizace
-        CMS.registerLocale('cs', {
-          locale: 'cs',
-          label: 'Čeština',
-          translations: {
-            auth: {
-              login: 'Přihlášení',
-              loggingIn: 'Přihlašování...',
-              loginWithNetlifyIdentity: 'Přihlásit se pomocí Netlify Identity',
-              loginWithBitbucket: 'Přihlásit se pomocí Bitbucket',
-              loginWithGitHub: 'Přihlásit se pomocí GitHub',
-              loginWithGitLab: 'Přihlásit se pomocí GitLab',
-              errors: {
-                email: 'Zadejte svůj email.',
-                password: 'Zadejte své heslo.',
-                identitySettings: 'Nelze přistoupit k nastavení identity.'
-              }
+  window.addEventListener('load', function() {
+    if (window.CMS) {
+      CMS.registerLocale('cs', {
+        locale: 'cs',
+        label: 'Čeština',
+        translations: {
+          app: {
+            header: {
+              content: 'Obsah',
+              workflow: 'Workflow',
+              media: 'Média',
+              quickAdd: 'Rychlé přidání'
+            }
+          },
+          collection: {
+            generic: {
+              headingPlural: 'Záznamy',
+              headingSingular: 'Záznam',
             },
-            app: {
-              header: {
-                content: 'Obsah',
-                workflow: 'Workflow',
-                media: 'Média',
-                quickAdd: 'Rychlé přidání'
-              },
-              app: {
-                errorHeader: 'Chyba při načítání konfigurace CMS',
-                configErrors: 'Chyby konfigurace',
-                checkConfigYml: 'Zkontrolujte soubor config.yml.'
-              },
-              media: {
-                uploadButton: 'Nahrát',
-                mediaAssets: 'Mediální soubory',
-                searchPlaceholder: 'Hledat...'
+            blog: {
+              label: 'Blog',
+              label_singular: 'Článek blogu'
+            }
+          },
+          editor: {
+            editorControlPane: {
+              widget: {
+                required: 'Povinné pole',
+                regexPattern: 'Neodpovídá vzoru: ',
+                processing: 'Zpracování...',
+                range: 'Musí být mezi %{fieldLabel} a %{maxFieldLabel}',
+                min: 'Musí být alespoň %{fieldLabel}',
+                max: 'Musí být %{fieldLabel} nebo méně',
+                invalidPath: '`%{path}` není platná cesta',
+                pathExists: 'Cesta `%{path}` již existuje'
               }
             }
+          },
+          fields: {
+            common: {
+              title: 'Nadpis',
+              excerpt: 'Popis',
+              author: 'Autor',
+              authorRole: 'Pozice autora',
+              publishDate: 'Datum publikace',
+              image: 'Obrázek',
+              tags: 'Štítky',
+              body: 'Obsah článku'
+            }
           }
-        });
+        }
+      });
+
+      document.title = 'Správa obsahu'; 
         // Načtení konfigurace z config.yml
         fetch('/admin/config.yml')
           .then(response => response.text())
