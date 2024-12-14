@@ -13,41 +13,64 @@
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
     window.addEventListener('load', function() {
-      if (window.CMS) {
-        CMS.init({
-          config: {
-            // ... zbytek konfigurace ...
-            locale: 'cs',
-            i18n: {
-              cs: {
-                'editor.editorControlPane.widget.richText.bold': 'Tučně',
-                'editor.editorControlPane.widget.richText.italic': 'Kurzíva',
-                'editor.editorControlPane.widget.richText.code': 'Kód',
-                'editor.editorControlPane.widget.richText.link': 'Odkaz',
-                'editor.editorControlPane.widget.richText.heading': 'Nadpis',
-                'editor.editorControlPane.widget.richText.headings.heading1': 'Nadpis 1',
-                'editor.editorControlPane.widget.richText.headings.heading2': 'Nadpis 2',
-                'editor.editorControlPane.widget.richText.headings.heading3': 'Nadpis 3',
-                'editor.editorControlPane.widget.richText.headings.heading4': 'Nadpis 4',
-                'editor.editorControlPane.widget.richText.headings.heading5': 'Nadpis 5',
-                'editor.editorControlPane.widget.richText.headings.heading6': 'Nadpis 6',
-                'editor.editorControlPane.widget.richText.bulletedList': 'Seznam s odrážkami',
-                'editor.editorControlPane.widget.richText.numberedList': 'Číslovaný seznam',
-                'editor.editorControlPane.widget.richText.addLink': 'Přidat odkaz',
-                'editor.editorControlPane.widget.richText.removeLink': 'Odstranit odkaz',
-                'editor.editorControlPane.widget.richText.quote': 'Citace',
-                'editor.editorControlPane.widget.richText.strikethrough': 'Přeškrtnuté',
-                'editor.editorControlPane.widget.richText.table': 'Tabulka',
-                'editor.editorControlPane.widget.richText.media': 'Média',
-                'editor.editorControlPane.widget.richText.undo': 'Zpět',
-                'editor.editorControlPane.widget.richText.redo': 'Vpřed'
+    if (window.CMS) {
+      CMS.registerLocale('cs', {
+        locale: 'cs',
+        label: 'Čeština',
+        translations: {
+          app: {
+            header: {
+              content: 'Obsah',
+              workflow: 'Workflow',
+              media: 'Média',
+              quickAdd: 'Rychlé přidání'
+            }
+          },
+          widget: {
+            markdown: {
+              richText: 'Rich Text',
+              markdown: 'Markdown'
+            },
+            image: {
+              choose: 'Vybrat obrázek',
+              chooseDifferent: 'Vybrat jiný obrázek',
+              remove: 'Odstranit obrázek'
+            },
+            list: {
+              add: 'Přidat štítek',
+              addType: 'Přidat nový štítek',
+              remove: 'Odstranit štítek'
+            },
+            datetime: {
+              now: 'Nyní',
+              invalidDate: 'Neplatné datum'
+            }
+          },
+          editor: {
+            editorWidgets: {
+              markdown: {
+                bold: 'Tučně',
+                italic: 'Kurzíva',
+                code: 'Kód',
+                link: 'Odkaz',
+                bulletedList: 'Odrážkový seznam',
+                numberedList: 'Číslovaný seznam',
+                addLink: 'Přidat odkaz',
+                removeLink: 'Odstranit odkaz',
+                linkPrompt: 'Vložte URL odkazu'
+              }
+            },
+            editorComponents: {
+              image: {
+                noImage: 'Žádný obrázek'
               }
             }
           }
-        });
+        }
+      });
 
-        document.title = 'Správa obsahu';
-
+      document.title = 'Správa obsahu';
+        // Načtení konfigurace z config.yml
         fetch('/admin/config.yml')
           .then(response => response.text())
           .then(configYml => {

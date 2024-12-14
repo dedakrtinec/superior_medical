@@ -23,4 +23,18 @@ collections:
       - {label: "Štítky", name: "tags", widget: "list", default: ["zdraví"]}
       - {label: "Obsah článku", name: "body", widget: "markdown"}
 
+editor:
+  toolbar_widgets: [
+    'bold',
+    'italic',
+    'code',
+    'link',
+    'heading',
+    'bulleted-list',
+    'numbered-list',
+    'quote',
+    'strikethrough',
+    'table'
+  ]
+
 locale: cs
