@@ -4,7 +4,7 @@ excerpt: 'Obezita není jen estetický problém, ale závažné onemocnění, kt
 author: 'MUDr. Jana Nováková'
 authorRole: 'Specialista na obezitologii'
 publishDate: '2024-01-15'
-image: 'https://picsum.photos/800/600?random=2'
+image: '/src/assets/images/testimage.jpg'
 tags: ['obezita', 'zdraví', 'prevence', 'léčba']
 ---
 

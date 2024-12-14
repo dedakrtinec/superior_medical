@@ -4,7 +4,7 @@ excerpt: 'Kompletní průvodce stravováním v prvních týdnech po zavedení ba
 author: 'Ing. Marie Kovářová'
 authorRole: 'Nutriční terapeutka'
 publishDate: '2024-02-15'
-image: 'https://picsum.photos/800/600?random=5'
+image: '/src/assets/images/testimage.jpg'   
 tags: ['výživa', 'stravování', 'tipy', 'zdraví']
 ---
 

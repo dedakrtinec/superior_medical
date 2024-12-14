@@ -4,7 +4,7 @@ excerpt: 'Přehled nejnovějších trendů a metod v léčbě obezity, včetně 
 author: 'MUDr. Jan Novotný'
 authorRole: 'Obezitolog'
 publishDate: '2024-03-01'
-image: 'https://picsum.photos/800/600?random=1'
+image: '/src/assets/images/testimage.jpg'
 tags: ['obezitologie', 'výzkum', 'technologie', 'léčba']
 ---
 

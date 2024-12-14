@@ -1,4 +1,4 @@
-import { z, defineCollection } from 'astro:content';
+import { z, defineCollection, type ImageFunction } from 'astro:content';
 
 const blogCollection = defineCollection({
   type: 'content',
@@ -8,7 +8,7 @@ const blogCollection = defineCollection({
     author: z.string(),
     authorRole: z.string(),
     publishDate: z.string().or(z.date()),
-    image: z.string(),
+    image: z.string().or(z.custom<ImageFunction>()),
     tags: z.array(z.string())
   })
 });

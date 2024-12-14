@@ -4,7 +4,7 @@ excerpt: 'Jak zvládnout mentální výzvy spojené s hubnutím a udržet si mot
 author: 'Mgr. Lucie Dvořáková'
 authorRole: 'Psycholog'
 publishDate: '2024-02-28'
-image: 'https://picsum.photos/800/600?random=3'
+image: '/src/assets/images/testimage.jpg'
 tags: ['psychologie', 'motivace', 'lifestyle', 'zdraví']
 ---
 
