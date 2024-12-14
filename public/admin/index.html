@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
     window.addEventListener('load', function() {
@@ -69,9 +70,11 @@
         // Načtení konfigurace z config.yml
         fetch('/admin/config.yml')
           .then(response => response.text())
-          .then(configYml => {
+          .then(yaml => {
+            const config = jsyaml.load(yaml);
             CMS.init({
               config: {
+                ...config,
                 locale: 'cs'
               }
             });
