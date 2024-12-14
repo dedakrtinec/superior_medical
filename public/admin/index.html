@@ -1,53 +1,77 @@
-<!-- public/admin/index.html -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Správa obsahu</title>
-  </head>
-  <body>
-    <!-- Načteme React před čímkoliv jiným -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Netlify Identity -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    
-    <!-- Static CMS -->
-    <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
-    <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
-
-    <script>
-      // Počkáme na načtení všech skriptů
-      window.addEventListener('load', function() {
-        // Kontrola, zda je CMS dostupný
-        if (window.CMS) {
-          // Nastavení češtiny
-          CMS.registerLocale('cs', {
-            locale: 'cs',
-            language: 'Czech'
-          });
-
-          // Inicializace CMS s českým jazykem
-          CMS.init({
-            config: {
-              locale: 'cs'
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+</head>
+<body>
+  <!-- Načteme React před čímkoliv jiným -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- Static CMS -->
+  <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
+  <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
+  <script>
+    window.addEventListener('load', function() {
+      if (window.CMS) {
+        // Registrace české lokalizace
+        CMS.registerLocale('cs', {
+          locale: 'cs',
+          label: 'Čeština',
+          translations: {
+            auth: {
+              login: 'Přihlášení',
+              loggingIn: 'Přihlašování...',
+              loginWithNetlifyIdentity: 'Přihlásit se pomocí Netlify Identity',
+              loginWithBitbucket: 'Přihlásit se pomocí Bitbucket',
+              loginWithGitHub: 'Přihlásit se pomocí GitHub',
+              loginWithGitLab: 'Přihlásit se pomocí GitLab',
+              errors: {
+                email: 'Zadejte svůj email.',
+                password: 'Zadejte své heslo.',
+                identitySettings: 'Nelze přistoupit k nastavení identity.'
+              }
+            },
+            app: {
+              header: {
+                content: 'Obsah',
+                workflow: 'Workflow',
+                media: 'Média',
+                quickAdd: 'Rychlé přidání'
+              },
+              app: {
+                errorHeader: 'Chyba při načítání konfigurace CMS',
+                configErrors: 'Chyby konfigurace',
+                checkConfigYml: 'Zkontrolujte soubor config.yml.'
+              },
+              media: {
+                uploadButton: 'Nahrát',
+                mediaAssets: 'Mediální soubory',
+                searchPlaceholder: 'Hledat...'
+              }
             }
-          });
-        } else {
-          console.error('CMS není dostupný');
-        }
-      });
-    </script>
+          }
+        });
 
-    <style>
-      /* Vaše existující styly můžete přidat až po inicializaci CMS */
-      body {
-        margin: 0;
-        padding: 0;
+        // Inicializace CMS s českou lokalizací
+        CMS.init({
+          config: {
+            locale: 'cs'
+          }
+        });
+      } else {
+        console.error('CMS není dostupný');
       }
-      /* ... další styly ... */
-    </style>
-  </body>
+    });
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</body>
 </html>
