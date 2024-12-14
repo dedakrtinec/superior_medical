@@ -13,105 +13,65 @@
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
     window.addEventListener('load', function() {
-    if (window.CMS) {
-      CMS.registerLocale('cs', {
-        locale: 'cs',
-        label: 'Čeština',
-        translations: {
-          app: {
-            header: {
-              content: 'Obsah',
-              workflow: 'Workflow',
-              media: 'Média',
-              quickAdd: 'Rychlé přidání'
-            }
-          },
-          collection: {
-      actions: {
-        discard_changes: 'Zahodit změny',
-        publish: 'Publikovat',
-        delete: 'Smazat',
-        save: 'Uložit',
-        cancel: 'Zrušit'
-            }
-          },
-          widget: {
-            markdown: {
-              richText: 'Rich Text',
-              markdown: 'Markdown'
-            },
-            image: {
-              choose: 'Vybrat obrázek',
-              chooseDifferent: 'Vybrat jiný obrázek',
-              remove: 'Odstranit obrázek'
-            },
-            list: {
-              add: 'Přidat štítek',
-              addType: 'Přidat nový štítek',
-              remove: 'Odstranit štítek'
-            },
-            datetime: {
-              now: 'Nyní',
-              invalidDate: 'Neplatné datum'
-            }
-          },
-          editor: {
-            editorWidgets: {
-              markdown: {
-                bold: 'Tučně',
-                italic: 'Kurzíva',
-                code: 'Kód',
-                link: 'Odkaz',
-                bulletedList: 'Odrážkový seznam',
-                numberedList: 'Číslovaný seznam',
-                addLink: 'Přidat odkaz',
-                removeLink: 'Odstranit odkaz',
-                linkPrompt: 'Vložte URL odkazu'
+      if (window.CMS) {
+        CMS.registerLocale('cs', {
+          locale: 'cs',
+          label: 'Čeština',
+          translations: {
+            app: {
+              header: {
+                content: 'Obsah',
+                workflow: 'Workflow',
+                media: 'Média',
+                quickAdd: 'Rychlé přidání'
               }
             },
-            editorComponents: {
-              image: {
-                noImage: 'Žádný obrázek'
+            collection: {
+              actions: {
+                discard_changes: 'Zahodit změny',
+                publish: 'Publikovat',
+                delete: 'Smazat',
+                save: 'Uložit',
+                cancel: 'Zrušit'
               }
             },
-            editorControlPane: {
-              widget: {
-                richText: {
-                  bold: 'Tučně',
-                  italic: 'Kurzíva',
-                  code: 'Kód',
-                  link: 'Odkaz',
-                  heading: 'Nadpis',
-                  bulletedList: 'Seznam s odrážkami',
-                  numberedList: 'Číslovaný seznam',
-                  addLink: 'Přidat odkaz',
-                  removeLink: 'Odstranit odkaz',
-                  quote: 'Citace'
+            editor: {
+              editorControlPane: {
+                widget: {
+                  richText: {
+                    bold: 'Tučně',
+                    italic: 'Kurzíva',
+                    code: 'Kód',
+                    link: 'Odkaz',
+                    heading: 'Nadpis',
+                    bulletedList: 'Seznam s odrážkami',
+                    numberedList: 'Číslovaný seznam',
+                    addLink: 'Přidat odkaz',
+                    removeLink: 'Odstranit odkaz',
+                    quote: 'Citace'
+                  }
+                }
+              }
+            },
+            ui: {
+              default: {
+                confirmUnsavedChanges: 'Máte neuložené změny. Opravdu chcete odejít?',
+                errorBoundary: {
+                  title: 'Chyba',
+                  details: 'Došlo k chybě',
+                  reportIt: 'Nahlásit chybu'
                 }
               }
             }
-          },
-          ui: {
-            default: {
-              confirmUnsavedChanges: 'Máte neuložené změny. Opravdu chcete odejít?',
-              errorBoundary: {
-                title: 'Chyba',
-                details: 'Došlo k chybě',
-                reportIt: 'Nahlásit chybu'
-              }
-            }
           }
-        }
-      });
+        });
 
-      document.title = 'Správa obsahu';
         // Načtení konfigurace z config.yml
         fetch('/admin/config.yml')
           .then(response => response.text())
           .then(configYml => {
             CMS.init({
               config: {
-                // ... zbytek vaší konfigurace ...
                 locale: 'cs'
               }
             });
