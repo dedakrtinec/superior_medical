@@ -24,17 +24,27 @@ collections:
       - {label: "Obsah článku", name: "body", widget: "markdown"}
 
 editor:
-  toolbar_widgets: [
-    'bold',
-    'italic',
-    'code',
-    'link',
-    'heading',
-    'bulleted-list',
-    'numbered-list',
-    'quote',
-    'strikethrough',
-    'table'
-  ]
+  preview: true
+  component: 'markdown'
+  toolbar:
+    disable_buttons: ['shortcode']  # toto explicitně zakáže shortcodes
+    buttons: [
+      'bold',
+      'italic',
+      'code',
+      'link',
+      'heading-smaller',
+      'heading-bigger',
+      'heading-1',
+      'heading-2',
+      'heading-3',
+      'heading-4',
+      'heading-5',
+      'heading-6',
+      'quote',
+      'bulleted-list',
+      'numbered-list'
+    ]
+
 
 locale: cs
