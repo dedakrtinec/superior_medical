@@ -14,13 +14,13 @@ collections:
     extension: "md"
     slug: "{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Excerpt", name: "excerpt", widget: "text"}
-      - {label: "Author", name: "author", widget: "string"}
-      - {label: "Author Role", name: "authorRole", widget: "string"}
-      - {label: "Publish Date", name: "publishDate", widget: "datetime"}
-      - {label: "Image", name: "image", widget: "image"}
-      - {label: "Tags", name: "tags", widget: "list", default: ["zdraví"]}
-      - {label: "Body", name: "body", widget: "markdown"}
+       - {label: "Nadpis", name: "title", widget: "string"}
+       - {label: "Popis", name: "excerpt", widget: "text"}
+       - {label: "Autor", name: "author", widget: "string"}
+       - {label: "Pozice autora", name: "authorRole", widget: "string"}
+       - {label: "Datum publikace", name: "publishDate", widget: "datetime", date_format: "DD.MM.YYYY", time_format: "HH:mm"}
+       - {label: "Obrázek", name: "image", widget: "image"}
+       - {label: "Štítky", name: "tags", widget: "list", default: ["zdraví"], label_singular: "štítek"}
+       - {label: "Obsah článku", name: "body", widget: "markdown"}
 
 locale: cs
