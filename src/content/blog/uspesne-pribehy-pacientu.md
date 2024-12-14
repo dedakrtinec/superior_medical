@@ -4,7 +4,7 @@ excerpt: 'Přečtěte si inspirativní příběhy pacientů, kteří pomocí int
 author: 'Bc. Petra Svobodová'
 authorRole: 'Nutriční specialista'
 publishDate: '2024-02-20'
-image: '/images/testimage.jpg'   
+image: '/images/uploads/testimage.jpg'   
 tags: ['případové studie', 'úspěchy', 'pacienti', 'hubnutí']
 ---
 
