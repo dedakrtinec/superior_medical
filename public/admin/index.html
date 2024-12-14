@@ -29,7 +29,10 @@
           collection: {
       actions: {
         discard_changes: 'Zahodit změny',
-        publish: 'Publikovat'
+        publish: 'Publikovat',
+        delete: 'Smazat',
+        save: 'Uložit',
+        cancel: 'Zrušit'
             }
           },
           widget: {
@@ -70,6 +73,32 @@
               image: {
                 noImage: 'Žádný obrázek'
               }
+            },
+            editorControlPane: {
+              widget: {
+                richText: {
+                  bold: 'Tučně',
+                  italic: 'Kurzíva',
+                  code: 'Kód',
+                  link: 'Odkaz',
+                  heading: 'Nadpis',
+                  bulletedList: 'Seznam s odrážkami',
+                  numberedList: 'Číslovaný seznam',
+                  addLink: 'Přidat odkaz',
+                  removeLink: 'Odstranit odkaz',
+                  quote: 'Citace'
+                }
+              }
+            }
+          },
+          ui: {
+            default: {
+              confirmUnsavedChanges: 'Máte neuložené změny. Opravdu chcete odejít?',
+              errorBoundary: {
+                title: 'Chyba',
+                details: 'Došlo k chybě',
+                reportIt: 'Nahlásit chybu'
+              }
             }
           }
         }
@@ -80,7 +109,12 @@
         fetch('/admin/config.yml')
           .then(response => response.text())
           .then(configYml => {
-            CMS.init();
+            CMS.init({
+              config: {
+                // ... zbytek vaší konfigurace ...
+                locale: 'cs'
+              }
+            });
           })
           .catch(error => {
             console.error('Nepodařilo se načíst config.yml:', error);
