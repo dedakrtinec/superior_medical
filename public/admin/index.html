@@ -12,55 +12,57 @@
   <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
-    window.addEventListener('load', function() {
+     window.addEventListener('load', function() {
       if (window.CMS) {
         // Registrace české lokalizace
         CMS.registerLocale('cs', {
-          // ... vaše lokalizace
-        });
-
-        // Inicializace CMS s kompletní konfigurací
-        CMS.init({
-          config: {
-            backend: {
-              name: 'git-gateway',
-              branch: 'master'
-            },
-            locale: 'cs',
-            media_folder: "public/images/uploads",
-            public_folder: "/images/uploads",
-            collections: [
-              {
-                name: "blog",
-                label: "Blog",
-                folder: "src/content/blog",
-                create: true,
-                delete: true,
-                slug: "{{slug}}",
-                fields: [
-                  {label: "Title", name: "title", widget: "string"},
-                  {label: "Excerpt", name: "excerpt", widget: "text"},
-                  {label: "Author", name: "author", widget: "string"},
-                  {label: "Author Role", name: "authorRole", widget: "string"},
-                  {label: "Publish Date", name: "publishDate", widget: "datetime"},
-                  {label: "Image", name: "image", widget: "image"},
-                  {label: "Tags", name: "tags", widget: "list", default: ["zdraví"]},
-                  {label: "Body", name: "body", widget: "markdown"}
-                ]
+          locale: 'cs',
+          label: 'Čeština',
+          translations: {
+            auth: {
+              login: 'Přihlášení',
+              loggingIn: 'Přihlašování...',
+              loginWithNetlifyIdentity: 'Přihlásit se pomocí Netlify Identity',
+              loginWithBitbucket: 'Přihlásit se pomocí Bitbucket',
+              loginWithGitHub: 'Přihlásit se pomocí GitHub',
+              loginWithGitLab: 'Přihlásit se pomocí GitLab',
+              errors: {
+                email: 'Zadejte svůj email.',
+                password: 'Zadejte své heslo.',
+                identitySettings: 'Nelze přistoupit k nastavení identity.'
               }
-            ]
+            },
+            app: {
+              header: {
+                content: 'Obsah',
+                workflow: 'Workflow',
+                media: 'Média',
+                quickAdd: 'Rychlé přidání'
+              },
+              app: {
+                errorHeader: 'Chyba při načítání konfigurace CMS',
+                configErrors: 'Chyby konfigurace',
+                checkConfigYml: 'Zkontrolujte soubor config.yml.'
+              },
+              media: {
+                uploadButton: 'Nahrát',
+                mediaAssets: 'Mediální soubory',
+                searchPlaceholder: 'Hledat...'
+              }
+            }
           }
         });
-      } else {
-        console.error('CMS není dostupný');
+        // Načtení konfigurace z config.yml
+        fetch('/admin/config.yml')
+          .then(response => response.text())
+          .then(configYml => {
+            CMS.init();
+          })
+          .catch(error => {
+            console.error('Nepodařilo se načíst config.yml:', error);
+          });
       }
     });
   </script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-  </style>
 </body>
 </html>
