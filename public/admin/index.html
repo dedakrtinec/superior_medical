@@ -12,7 +12,7 @@
   <script src="https://unpkg.com/@staticcms/app@3.4.5/dist/static-cms-app.js"></script>
   <link href="https://unpkg.com/@staticcms/app@3.4.5/dist/main.css" rel="stylesheet" />
   <script>
-  window.addEventListener('load', function() {
+    window.addEventListener('load', function() {
     if (window.CMS) {
       CMS.registerLocale('cs', {
         locale: 'cs',
@@ -26,46 +26,50 @@
               quickAdd: 'Rychlé přidání'
             }
           },
-          collection: {
-            generic: {
-              headingPlural: 'Záznamy',
-              headingSingular: 'Záznam',
+          widget: {
+            markdown: {
+              richText: 'Rich Text',
+              markdown: 'Markdown'
             },
-            blog: {
-              label: 'Blog',
-              label_singular: 'Článek blogu'
+            image: {
+              choose: 'Vybrat obrázek',
+              chooseDifferent: 'Vybrat jiný obrázek',
+              remove: 'Odstranit obrázek'
+            },
+            list: {
+              add: 'Přidat štítek',
+              addType: 'Přidat nový štítek',
+              remove: 'Odstranit štítek'
+            },
+            datetime: {
+              now: 'Nyní',
+              invalidDate: 'Neplatné datum'
             }
           },
           editor: {
-            editorControlPane: {
-              widget: {
-                required: 'Povinné pole',
-                regexPattern: 'Neodpovídá vzoru: ',
-                processing: 'Zpracování...',
-                range: 'Musí být mezi %{fieldLabel} a %{maxFieldLabel}',
-                min: 'Musí být alespoň %{fieldLabel}',
-                max: 'Musí být %{fieldLabel} nebo méně',
-                invalidPath: '`%{path}` není platná cesta',
-                pathExists: 'Cesta `%{path}` již existuje'
+            editorWidgets: {
+              markdown: {
+                bold: 'Tučně',
+                italic: 'Kurzíva',
+                code: 'Kód',
+                link: 'Odkaz',
+                bulletedList: 'Odrážkový seznam',
+                numberedList: 'Číslovaný seznam',
+                addLink: 'Přidat odkaz',
+                removeLink: 'Odstranit odkaz',
+                linkPrompt: 'Vložte URL odkazu'
               }
-            }
-          },
-          fields: {
-            common: {
-              title: 'Nadpis',
-              excerpt: 'Popis',
-              author: 'Autor',
-              authorRole: 'Pozice autora',
-              publishDate: 'Datum publikace',
-              image: 'Obrázek',
-              tags: 'Štítky',
-              body: 'Obsah článku'
+            },
+            editorComponents: {
+              image: {
+                noImage: 'Žádný obrázek'
+              }
             }
           }
         }
       });
 
-      document.title = 'Správa obsahu'; 
+      document.title = 'Správa obsahu';
         // Načtení konfigurace z config.yml
         fetch('/admin/config.yml')
           .then(response => response.text())
