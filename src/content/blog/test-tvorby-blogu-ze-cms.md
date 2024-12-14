@@ -4,7 +4,7 @@ excerpt: Testuji
 author: Martin
 authorRole: Developer
 publishDate: 2024-12-13T22:29:35.771
-image: ' /src/assets/images/testimage.jpg'
+image: '/images/testimage.jpg'
 tags:
   - zdraví
 ---
