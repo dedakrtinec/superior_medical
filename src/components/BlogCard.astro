@@ -1,5 +1,4 @@
 ---
-import { colors } from '../helpers/colors';
 interface BlogPost {
   slug: string;
   data: {
@@ -26,9 +25,9 @@ const { post } = Astro.props;
       class="w-full h-48 object-cover"
     />
     <div class="p-6">
-      <div class="flex gap-2 mb-3">
-        {post.data.tags.map((tag: string) => (
-          <span class="px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-xs">
+      <div class="flex flex-wrap gap-2 mb-3">
+        {post.data.tags.slice(0, 4).map((tag: string) => (
+          <span class="px-2 py-1 bg-[#e7f5fa] text-[#173358] flex items-center justify-center rounded-full text-xs">
             {tag}
           </span>
         ))}
