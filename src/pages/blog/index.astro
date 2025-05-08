@@ -43,14 +43,30 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
         <div class="mb-8">
           <h3 class="text-lg font-semibold mb-3">Filtrovat podle témat</h3>
           <div class="flex flex-wrap gap-2" id="tag-container">
-            {allTags.map((tag: string) => (
-              <button class="px-3 py-1 bg-[#e7f5fa] text-[#173358] hover:bg-[#173358] hover:text-white rounded-full text-sm tag-filter" data-tag={tag}>
-                {tag}
+            <div class="flex flex-wrap gap-2" id="visible-tags">
+              {allTags.slice(0, 30).map((tag: string) => (
+                <button class="px-3 py-1 bg-[#e7f5fa] text-[#173358] hover:bg-[#173358] hover:text-white rounded-full text-sm tag-filter" data-tag={tag}>
+                  {tag}
+                </button>
+              ))}
+              {allTags.length > 30 && (
+                <button id="show-more-tags" class="px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-full text-sm">
+                  +{allTags.length - 30} dalších
+                </button>
+              )}
+            </div>
+            <div class="hidden flex-wrap gap-2" id="all-tags">
+              {allTags.map((tag: string) => (
+                <button class="px-3 py-1 bg-[#e7f5fa] text-[#173358] hover:bg-[#173358] hover:text-white rounded-full text-sm tag-filter" data-tag={tag}>
+                  {tag}
+                </button>
+              ))}
+              <button id="show-less-tags" class="px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-full text-sm">
+                Méně
               </button>
-            ))}
+            </div>
           </div>
         </div>
-      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
         {sortedPosts.map((post: BlogPost) => (
@@ -96,11 +112,31 @@ interface HTMLElementWithDataset extends HTMLElement {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Zachováváme váš původní kód pro filtrování a tagování
   const searchInput = document.getElementById('search') as HTMLInputElement;
   const blogPosts = document.getElementById('blog-posts');
   let currentTag: string | null = null;
 
-  // Přidáme funkci pro získání tagu z URL
+  // Přidáváme kód pro přepínání zobrazení tagů
+  const visibleTags = document.getElementById('visible-tags');
+  const allTags = document.getElementById('all-tags');
+  const showMoreButton = document.getElementById('show-more-tags');
+  const showLessButton = document.getElementById('show-less-tags');
+
+  // Přepínání mezi zobrazením více/méně tagů
+  showMoreButton?.addEventListener('click', () => {
+    visibleTags?.classList.add('hidden');
+    allTags?.classList.remove('hidden');
+    allTags?.classList.add('flex');
+  });
+
+  showLessButton?.addEventListener('click', () => {
+    allTags?.classList.remove('flex');
+    allTags?.classList.add('hidden');
+    visibleTags?.classList.remove('hidden');
+  });
+
+  // Zpracování URL parametru při načtení stránky
   function getTagFromURL(): string | null {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('tag');
@@ -140,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function activateTag(tag: string | null) {
     currentTag = tag;
     document.querySelectorAll('.tag-filter').forEach((btn: Element) => {
-      const tagBtn = btn as HTMLElementWithDataset;
+      const tagBtn = btn as HTMLElement & { dataset: DOMStringMap };
       if (tagBtn.dataset.tag === currentTag) {
         btn.classList.add('bg-blue-500', 'text-white');
       } else {
@@ -161,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.querySelectorAll('.tag-filter').forEach((button: Element) => {
     button.addEventListener('click', () => {
-      const tagButton = button as HTMLElementWithDataset;
+      const tagButton = button as HTMLElement & { dataset: DOMStringMap };
       const tag = tagButton.dataset.tag;
       if (!tag) return;
 
