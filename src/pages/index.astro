@@ -21,64 +21,17 @@ const images = [
 ];
 const carouselSlides = [
   {
-    src: "/images/uploads/banner-test.jpg",
+    src: "/images/uploads/banner-test3.jpg",
     alt: "První obrázek",
     html: `
-      <style>
-        /* Pro malé obrazovky */
-        @media (max-width: 400px) {
-          .carousel-heading {
-            font-size: 1.2rem !important;
-          }
-          .carousel-subheading {
-            font-size: 1rem !important;
-          }
-          .carousel-hr {
-            margin: 0.5rem 0 0.5rem 0 !important;
-            border-top-width: 2px !important;
-            width: 70px !important;
-          }
-          .carousel-text-container {
-            bottom: 15% !important;
-            left: 5% !important;
-          }
-        }
-        
-        /* Pro střední obrazovky */
-        @media (min-width: 401px) and (max-width: 1440px) {
-          .carousel-text-container {
-            left: 9.1% !important;
-            max-width: 80% !important;
-          }
-        }
-        
-        /* Pro vysoká rozlišení 2.5K a vyšší */
-        @media (min-width: 1441px) {
-          .carousel-text-container {
-            left: 15% !important;
-            max-width: 70% !important;
-          }
-          .carousel-heading {
-            font-size: 7rem !important;
-          }
-          .carousel-subheading {
-            font-size: 5rem !important;
-          }
-          .carousel-hr {
-            border-top-width: 8px !important;
-            width: 300px !important;
-            margin: 4rem 0 2rem 0 !important;
-          }
-        }
-      </style>
-      <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0;">
+      <div class="carousel-text-container">
         <div style="line-height: 0.9;">
-          <h2 class="carousel-heading" style="margin: 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-          <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+          <h2 class="carousel-heading">Hubněte</h2>
+          <h2 class="carousel-heading">moderně!</h2>
         </div>
         
-        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
-        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
+        <hr class="carousel-hr">
+        <h2 class="carousel-subheading">gastro balonky</h2>
       </div>
     `
   },
@@ -86,123 +39,29 @@ const carouselSlides = [
     src: "/images/uploads/banner-test3.jpg",
     alt: "Druhý obrázek",
     html: `
-      <style>
-        /* Pro malé obrazovky */
-        @media (max-width: 400px) {
-          .carousel-heading {
-            font-size: 1.2rem !important;
-          }
-          .carousel-subheading {
-            font-size: 1rem !important;
-          }
-          .carousel-hr {
-            margin: 0.5rem 0 0.5rem 0 !important;
-            border-top-width: 2px !important;
-            width: 70px !important;
-          }
-          .carousel-text-container {
-            bottom: 15% !important;
-            left: 5% !important;
-          }
-        }
-        
-        /* Pro střední obrazovky */
-        @media (min-width: 401px) and (max-width: 1440px) {
-          .carousel-text-container {
-            left: 9.1% !important;
-            max-width: 80% !important;
-          }
-        }
-        
-        /* Pro vysoká rozlišení 2.5K a vyšší */
-        @media (min-width: 1441px) {
-          .carousel-text-container {
-            left: 15% !important;
-            max-width: 70% !important;
-          }
-          .carousel-heading {
-            font-size: 7rem !important;
-          }
-          .carousel-subheading {
-            font-size: 5rem !important;
-          }
-          .carousel-hr {
-            border-top-width: 8px !important;
-            width: 300px !important;
-            margin: 4rem 0 2rem 0 !important;
-          }
-        }
-      </style>
-      <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0;">
+      <div class="carousel-text-container">
         <div style="line-height: 0.9;">
-          <h2 class="carousel-heading" style="margin: 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-          <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+          <h2 class="carousel-heading">Hubněte</h2>
+          <h2 class="carousel-heading">moderně!</h2>
         </div>
         
-        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
-        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
+        <hr class="carousel-hr">
+        <h2 class="carousel-subheading">gastro balonky</h2>
       </div>
     `
   },
   {
-    src: "/images/uploads/banner-test.jpg",
+    src: "/images/uploads/banner-test3.jpg",
     alt: "Třetí obrázek",
     html: `
-      <style>
-        /* Pro malé obrazovky */
-        @media (max-width: 400px) {
-          .carousel-heading {
-            font-size: 1.2rem !important;
-          }
-          .carousel-subheading {
-            font-size: 1rem !important;
-          }
-          .carousel-hr {
-            margin: 0.5rem 0 0.5rem 0 !important;
-            border-top-width: 2px !important;
-            width: 70px !important;
-          }
-          .carousel-text-container {
-            bottom: 15% !important;
-            left: 5% !important;
-          }
-        }
-        
-        /* Pro střední obrazovky */
-        @media (min-width: 401px) and (max-width: 1440px) {
-          .carousel-text-container {
-            left: 9.1% !important;
-            max-width: 80% !important;
-          }
-        }
-        
-        /* Pro vysoká rozlišení 2.5K a vyšší */
-        @media (min-width: 1441px) {
-          .carousel-text-container {
-            left: 15% !important;
-            max-width: 70% !important;
-          }
-          .carousel-heading {
-            font-size: 7rem !important;
-          }
-          .carousel-subheading {
-            font-size: 5rem !important;
-          }
-          .carousel-hr {
-            border-top-width: 8px !important;
-            width: 300px !important;
-            margin: 4rem 0 2rem 0 !important;
-          }
-        }
-      </style>
-      <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0;">
+      <div class="carousel-text-container">
         <div style="line-height: 0.9;">
-          <h2 class="carousel-heading" style="margin: 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-          <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+          <h2 class="carousel-heading">Hubněte</h2>
+          <h2 class="carousel-heading">moderně!</h2>
         </div>
         
-        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
-        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
+        <hr class="carousel-hr">
+        <h2 class="carousel-subheading">gastro balonky</h2>
       </div>
     `
   }
@@ -222,3 +81,4 @@ const carouselSlides = [
   </main>
   <Footer />
 </Layout>
+

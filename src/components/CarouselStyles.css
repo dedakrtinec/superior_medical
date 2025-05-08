@@ -1,0 +1,353 @@
+/* CarouselStyles.css */
+
+/* Základní konstanty pro škálování - stačí upravit tyto hodnoty pro změnu celého designu */
+:root {
+    /* Základní velikosti */
+    --base-font-size: 20px;            /* Základní velikost fontu */
+    --base-spacing: 8px;               /* Základní velikost mezer */
+    --base-line-height: 1.2;           /* Základní výška řádku */
+    
+    /* Relativní násobky pro vytvoření hierarchie velikostí */
+    --scale-xs: 0.75;                  /* Extra small - 0.75× základní velikost */
+    --scale-sm: 1;                     /* Small - 1× základní velikost */
+    --scale-md: 1.5;                   /* Medium - 1.5× základní velikost */
+    --scale-lg: 2;                     /* Large - 2× základní velikost */
+    --scale-xl: 3;                     /* Extra large - 3× základní velikost */
+    --scale-xxl: 4;                    /* Extra extra large - 4× základní velikost */
+    --scale-xxxl: 5;                   /* Super size - 5× základní velikost */
+    
+    /* Odvozené velikosti pro hlavní nadpisy */
+    --heading-size-xs: calc(var(--base-font-size) * var(--scale-lg));      /* 32px */
+    --heading-size-sm: calc(var(--base-font-size) * var(--scale-xl));      /* 48px */
+    --heading-size-md: calc(var(--base-font-size) * var(--scale-xxl));     /* 64px */
+    --heading-size-lg: calc(var(--base-font-size) * var(--scale-xxxl));    /* 80px */
+    --heading-size-xl: calc(var(--base-font-size) * 7);                   /* 112px */
+    
+    /* Odvozené velikosti pro podnadpisy */
+    --subheading-size-xs: calc(var(--base-font-size) * var(--scale-md));   /* 24px */
+    --subheading-size-sm: calc(var(--base-font-size) * var(--scale-lg));   /* 32px */
+    --subheading-size-md: calc(var(--base-font-size) * var(--scale-xl));   /* 48px */
+    --subheading-size-lg: calc(var(--base-font-size) * var(--scale-xxl));  /* 64px */
+    --subheading-size-xl: calc(var(--base-font-size) * 5);                /* 80px */
+    
+    /* Odvozené velikosti pro horizontální čáru */
+    --hr-width-xs: calc(var(--base-spacing) * 9);      /* 72px */
+    --hr-width-sm: calc(var(--base-spacing) * 12.5);   /* 100px */
+    --hr-width-md: calc(var(--base-spacing) * 15);     /* 120px */
+    --hr-width-lg: calc(var(--base-spacing) * 25);     /* 200px */
+    --hr-width-xl: calc(var(--base-spacing) * 37.5);   /* 300px */
+    
+    /* Odvozené tloušťky pro horizontální čáru */
+    --hr-thickness-xs: calc(var(--base-spacing) * 0.25);  /* 2px */
+    --hr-thickness-sm: calc(var(--base-spacing) * 0.375); /* 3px */
+    --hr-thickness-md: calc(var(--base-spacing) * 0.5);   /* 4px */
+    --hr-thickness-lg: calc(var(--base-spacing) * 0.75);  /* 6px */
+    --hr-thickness-xl: calc(var(--base-spacing) * 1);     /* 8px */
+    
+    /* Odvozené velikosti mezer */
+    --spacing-xs: calc(var(--base-spacing) * var(--scale-xs));    /* 6px */
+    --spacing-sm: calc(var(--base-spacing) * var(--scale-sm));    /* 8px */
+    --spacing-md: calc(var(--base-spacing) * var(--scale-md));    /* 12px */
+    --spacing-lg: calc(var(--base-spacing) * var(--scale-lg));    /* 16px */
+    --spacing-xl: calc(var(--base-spacing) * var(--scale-xl));    /* 24px */
+    --spacing-xxl: calc(var(--base-spacing) * var(--scale-xxl));  /* 32px */
+    --spacing-xxxl: calc(var(--base-spacing) * 6);               /* 48px */
+  }
+  
+  /* Základní styly pro carousel text container */
+  .carousel-text-container {
+    position: absolute;
+    bottom: 18%;
+    left: 9.1%;
+    color: white;
+    max-width: 80%;
+    padding: 0;
+  }
+  
+  .carousel-heading {
+    margin: 0;
+    font-weight: bold;
+    font-size: clamp(calc(var(--base-font-size) * var(--scale-lg)), 6vw, calc(var(--base-font-size) * 5.8));
+  }
+  
+  .carousel-heading:last-of-type {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .carousel-hr {
+    margin: clamp(var(--spacing-md), 2vw, var(--spacing-xxxl)) 0 clamp(var(--spacing-sm), 1vw, var(--spacing-md)) 0;
+    border: none;
+    border-top: clamp(var(--hr-thickness-xs), 0.4vw, var(--hr-thickness-md)) solid white;
+    width: clamp(var(--hr-width-xs), 40%, var(--hr-width-md));
+    margin-left: 0;
+  }
+  
+  .carousel-subheading {
+    margin: clamp(var(--spacing-md), 2vw, var(--spacing-xxl)) 0 var(--spacing-md) 0;
+    font-size: clamp(calc(var(--base-font-size) * var(--scale-md)), 4vw, calc(var(--base-font-size) * 4));
+  }
+  
+  /* 
+   * DETAILNÍ ŠKÁLOVÁNÍ PRO RŮZNÉ VELIKOSTI OBRAZOVKY
+   * Rozděleno do 12 breakpointů pro maximální kontrolu
+   */
+  
+  /* 1. Velmi malá mobilní zařízení - do 320px (iPhone SE) */
+  @media (max-width: 320px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 0.9) !important; /* 17.6px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 0.7) !important; /* 14.4px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-xs) 0 var(--spacing-xs) 0 !important;
+      border-top-width: var(--hr-thickness-xs) !important;
+      width: calc(var(--hr-width-xs) * 0.8) !important; /* 57.6px */
+    }
+    .carousel-text-container {
+      bottom: 10% !important;
+      left: 5% !important;
+      max-width: 85% !important;
+    }
+  }
+  
+  /* 2. Malá mobilní zařízení - 321px až 375px (iPhone X) */
+  @media (min-width: 321px) and (max-width: 375px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 1) !important; /* 19.2px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 0.8) !important; /* 16px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-sm) 0 var(--spacing-xs) 0 !important;
+      border-top-width: var(--hr-thickness-xs) !important;
+      width: calc(var(--hr-width-xs) * 0.9) !important; /* 64.8px */
+    }
+    .carousel-text-container {
+      bottom: 12% !important;
+      left: 6% !important;
+      max-width: 85% !important;
+    }
+  }
+  
+  /* 3. Mobilní zařízení - 376px až 428px (iPhone 12 Pro Max) */
+  @media (min-width: 376px) and (max-width: 428px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 1.2) !important; /* 20.8px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1) !important; /* 17.6px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-sm) 0 var(--spacing-sm) 0 !important;
+      border-top-width: var(--hr-thickness-xs) !important;
+      width: var(--hr-width-xs) !important; /* 72px */
+    }
+    .carousel-text-container {
+      bottom: 13% !important;
+      left: 7% !important;
+      max-width: 80% !important;
+    }
+  }
+  
+  /* 4. Větší mobilní zařízení - 429px až 480px */
+  @media (min-width: 429px) and (max-width: 480px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 1.4) !important; /* 22.4px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1.2) !important; /* 19.2px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-md) 0 var(--spacing-sm) 0 !important;
+      border-top-width: var(--hr-thickness-xs) !important;
+      width: calc(var(--hr-width-xs) * 1.1) !important; /* 79.2px */
+    }
+    .carousel-text-container {
+      bottom: 14% !important;
+      left: 8% !important;
+      max-width: 80% !important;
+    }
+  }
+  
+  /* 5. Malé tablety a velké mobily - 481px až 640px */
+  @media (min-width: 481px) and (max-width: 640px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 1.5) !important; /* 24px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1.3) !important; /* 20.8px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-md) 0 var(--spacing-md) 0 !important;
+      border-top-width: calc(var(--hr-thickness-xs) * 1.25) !important; /* 2.5px */
+      width: calc(var(--hr-width-sm) * 0.9) !important; /* 90px */
+    }
+    .carousel-text-container {
+      bottom: 15% !important;
+      left: 8% !important;
+      max-width: 75% !important;
+    }
+  }
+  
+  /* 6. Tablety - 641px až 768px (iPad Mini) */
+  @media (min-width: 641px) and (max-width: 768px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 1.9) !important; /* 27.2px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1.6) !important; /* 22.4px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-lg) 0 var(--spacing-md) 0 !important;
+      border-top-width: var(--hr-thickness-sm) !important; /* 3px */
+      width: var(--hr-width-sm) !important; /* 100px */
+    }
+    .carousel-text-container {
+      bottom: 16% !important;
+      left: 9% !important;
+      max-width: 70% !important;
+    }
+  }
+  
+  /* 7. Velké tablety - 769px až 1024px (iPad Air) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 2) !important; /* 32px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1.5) !important; /* 24px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-xl) 0 var(--spacing-lg) 0 !important;
+      border-top-width: var(--hr-thickness-sm) !important; /* 3px */
+      width: calc(var(--hr-width-md) * 0.9) !important; /* 108px */
+    }
+    .carousel-text-container {
+      bottom: 18% !important;
+      left: 10% !important;
+      max-width: 65% !important;
+    }
+  }
+  
+  /* 8. Menší laptopy - 1025px až 1280px (MacBook Air 13") */
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 2.4) !important; /* 35.2px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 1.9) !important; /* 27.2px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-xxl) 0 var(--spacing-xl) 0 !important;
+      border-top-width: var(--hr-thickness-sm) !important; /* 3px */
+      width: var(--hr-width-md) !important; /* 120px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 12% !important;
+      max-width: 60% !important;
+    }
+  }
+  
+  /* 9. Laptopy - 1281px až 1440px (MacBook Pro 14") */
+  @media (min-width: 1281px) and (max-width: 1440px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 2.8) !important; /* 41.6px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 2.2) !important; /* 32px */
+    }
+    .carousel-hr {
+      margin: calc(var(--spacing-xxl) * 1.1) 0 var(--spacing-xxl) 0 !important;
+      border-top-width: var(--hr-thickness-md) !important; /* 4px */
+      width: calc(var(--hr-width-md) * 1.1) !important; /* 132px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 12.5% !important;
+      max-width: 60% !important;
+    }
+  }
+  
+  /* 10. Velké laptopy a malé desktopy - 1441px až 1680px */
+  @media (min-width: 1441px) and (max-width: 1680px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 3) !important; /* 48px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 2.2) !important; /* 35.2px */
+    }
+    .carousel-hr {
+      margin: var(--spacing-xxxl) 0 var(--spacing-xxl) 0 !important;
+      border-top-width: var(--hr-thickness-md) !important; /* 4px */
+      width: calc(var(--hr-width-md) * 1.25) !important; /* 150px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 13% !important;
+      max-width: 65% !important;
+    }
+  }
+  
+  /* 11. Desktopy - 1681px až 1920px (Full HD) */
+  @media (min-width: 1681px) and (max-width: 1920px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 4) !important; /* 64px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 3) !important; /* 48px */
+    }
+    .carousel-hr {
+      margin: calc(var(--spacing-xxxl) * 1.25) 0 calc(var(--spacing-xxl) * 1.1) 0 !important;
+      border-top-width: var(--hr-thickness-lg) !important; /* 6px */
+      width: calc(var(--hr-width-lg) * 0.8) !important; /* 160px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 14% !important;
+      max-width: 65% !important;
+    }
+  }
+  
+  /* 12. Velké desktopy - 1921px až 2560px (2.5K, QHD) */
+  @media (min-width: 1921px) and (max-width: 2560px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 5.5) !important; /* 88px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 4) !important; /* 64px */
+    }
+    .carousel-hr {
+      margin: calc(var(--spacing-xxxl) * 1.5) 0 calc(var(--spacing-xxxl) * 1) 0 !important;
+      border-top-width: var(--hr-thickness-lg) !important; /* 6px */
+      width: calc(var(--hr-width-lg) * 1.25) !important; /* 250px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 15% !important;
+      max-width: 70% !important;
+    }
+  }
+  
+  /* 13. Ultrawide a 4K - nad 2560px */
+  @media (min-width: 2561px) {
+    .carousel-heading {
+      font-size: calc(var(--base-font-size) * 7) !important; /* 112px */
+    }
+    .carousel-subheading {
+      font-size: calc(var(--base-font-size) * 5) !important; /* 80px */
+    }
+    .carousel-hr {
+      margin: calc(var(--spacing-xxxl) * 2) 0 calc(var(--spacing-xxxl) * 1.25) 0 !important;
+      border-top-width: var(--hr-thickness-xl) !important; /* 8px */
+      width: var(--hr-width-xl) !important; /* 300px */
+    }
+    .carousel-text-container {
+      bottom: 20% !important;
+      left: 15% !important;
+      max-width: 70% !important;
+    }
+  }
