@@ -7,7 +7,7 @@ const contactInfo = {
 <section id="contact" class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-4">
     <h2 class="text-3xl font-bold mb-8 text-center">Kontaktujte nás</h2>
-    <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+    <p class="text-gray-600 mb-12 max-w-3xl mx-auto">
       Jsme tu pro vás a rádi vám odpovíme na všechny dotazy ohledně našich produktů a služeb. Neváhejte nás kontaktovat telefonicky, e-mailem nebo prostřednictvím kontaktního formuláře níže. Těšíme se na spolupráci a jsme připraveni vám poskytnout odborné poradenství i veškeré potřebné informace.
     </p>
     
@@ -30,24 +30,39 @@ const contactInfo = {
         </div>
       </div>
 
-      <form class="space-y-4">
+      <form class="space-y-4" action="https://formsubmit.co/28863183be9f04a7bb1926d32f70187f" method="POST" >
+        <input type="hidden" name="_next" value="/formsubmit">
+        <input type="hidden" name="_template" value="table">
         <input
+          name="name"
           type="text"
           placeholder="Jméno"
           class="w-full p-3 border rounded-lg"
           required
         />
         <input
+          name="email"
           type="email"
           placeholder="E-mail"
           class="w-full p-3 border rounded-lg"
           required
         />
         <textarea
+          name="message"
           placeholder="Zpráva"
           class="w-full p-3 border rounded-lg h-32"
           required
         ></textarea>
+        <div class="mb-6">
+          <label class="flex items-start">
+            <input type="checkbox" name="gdpr_souhlas" required class="mt-1 mr-2">
+            <span class="text-sm text-gray-600">
+              Souhlasím se zpracováním osobních údajů. Přečetl/a jsem si 
+              <a href="/gdpr" class="text-[#50a6d3] underline" target="_blank">zásady ochrany osobních údajů</a>
+              a beru na vědomí, že mé údaje budou zpracovány za účelem vyřízení tohoto požadavku a mohou být dočasně uloženy u poskytovatele formulářové služby po dobu 30 dnů. *
+            </span>
+          </label>
+        </div>
         <button 
           type="submit"
           class="bg-[#50a6d3] text-white px-6 py-3 rounded-lg hover:bg-[#173358] w-full transition-colors"

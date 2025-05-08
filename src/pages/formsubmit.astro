@@ -1,0 +1,35 @@
+---
+import CookieConsent from '../components/CookieConsent.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Děkujeme za zprávu - Superior Medical">
+  <CookieConsent />
+  <Header />
+  <main class="py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <div class="mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      
+      <h1 class="text-3xl font-bold mb-4">Děkujeme za Vaši zprávu</h1>
+      
+      <div class="prose max-w-none mx-auto">
+        <p class="text-lg mb-6">Vaše zpráva byla úspěšně odeslána a přijata.</p>
+        
+        <p class="mb-8">Odpovíme Vám co nejdříve, obvykle do 24 hodin v pracovních dnech.</p>
+        
+        <div class="mt-10">
+          <a href="/" class="bg-[#50a6d3] hover:bg-[#173358] text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+            Zpět na úvodní stránku
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
