@@ -4,7 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-
+import { colors } from '../../helpers/colors';
 type BlogPost = CollectionEntry<'blog'>;
 
 const posts = await getCollection('blog');

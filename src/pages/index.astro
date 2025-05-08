@@ -1,24 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Products from '../components/Products.astro';
-import Partners from '../components/Partners.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+import Carousel from '../components/Carousel.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
-import Pricing from '../components/Pricing.astro';
-import BlogPreview from '../components/BlogPreview.astro';
-
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Partners from '../components/Partners.astro';
+import Products from '../components/Products.astro';
+import Layout from '../layouts/Layout.astro';
 // Pokud používáte content collections, je potřeba přidat konfiguraci
 import { getCollection } from 'astro:content';
 
 // Získání blogových příspěvků pro BlogPreview
 const allPosts = await getCollection('blog');
+const images = [
+  { src: '/images/uploads/banner-test.jpg', alt: 'First placeholder' },
+  { src: '/images/uploads/banner-test.jpg', alt: 'Second placeholder' },
+  { src: '/images/uploads/banner-test.jpg', alt: 'Third placeholder' },
+];
 ---
 
 <Layout title="Superior Medical - Špičkové zdravotnické pomůcky">
   <Header />
   <main>
+    <Carousel images={images} id="main-carousel"/>
     <Hero />
     <Products />
     <BlogPreview posts={allPosts} />
