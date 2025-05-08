@@ -25,21 +25,32 @@ const carouselSlides = [
     alt: "První obrázek",
     html: `
       <style>
-        @media (max-width: 480px) {
+        /* Pro velmi malé obrazovky */
+        @media (max-width: 400px) {
+          .carousel-heading {
+            font-size: 1.2rem !important;
+            margin-bottom: 5px !important;
+          }
+          .carousel-subheading {
+            font-size: 1rem !important;
+          }
+          .carousel-hr {
+            margin: 0.5rem 0 0.5rem 0 !important;
+            border-top-width: 2px !important;
+            width: 70px !important;
+          }
           .carousel-text-container {
             bottom: 15% !important;
             left: 5% !important;
-          }
-          .carousel-text-container h2 {
-            margin-bottom: 5px !important;
+            line-height: 1 !important;
           }
         }
       </style>
       <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0; line-height: 1.1;">
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
-        <hr style="margin: clamp(0.8rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.5vw, 6px) solid white; width: clamp(80px, 40%, 200px); margin-left: 0;">
-        <h2 style="margin: clamp(0.8rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1.2rem, 4vw, 4rem);">gastro balonky</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
+        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
       </div>
     `
   },
@@ -48,21 +59,32 @@ const carouselSlides = [
     alt: "Druhý obrázek",
     html: `
       <style>
-        @media (max-width: 480px) {
+        /* Pro velmi malé obrazovky */
+        @media (max-width: 400px) {
+          .carousel-heading {
+            font-size: 1.2rem !important;
+            margin-bottom: 5px !important;
+          }
+          .carousel-subheading {
+            font-size: 1rem !important;
+          }
+          .carousel-hr {
+            margin: 0.5rem 0 0.5rem 0 !important;
+            border-top-width: 2px !important;
+            width: 70px !important;
+          }
           .carousel-text-container {
             bottom: 15% !important;
             left: 5% !important;
-          }
-          .carousel-text-container h2 {
-            margin-bottom: 5px !important;
+            line-height: 1 !important;
           }
         }
       </style>
       <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0; line-height: 1.1;">
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
-        <hr style="margin: clamp(0.8rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.5vw, 6px) solid white; width: clamp(80px, 40%, 200px); margin-left: 0;">
-        <h2 style="margin: clamp(0.8rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1.2rem, 4vw, 4rem);">gastro balonky</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
+        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
       </div>
     `
   },
@@ -71,21 +93,32 @@ const carouselSlides = [
     alt: "Třetí obrázek",
     html: `
       <style>
-        @media (max-width: 480px) {
+        /* Pro velmi malé obrazovky */
+        @media (max-width: 400px) {
+          .carousel-heading {
+            font-size: 1.2rem !important;
+            margin-bottom: 5px !important;
+          }
+          .carousel-subheading {
+            font-size: 1rem !important;
+          }
+          .carousel-hr {
+            margin: 0.5rem 0 0.5rem 0 !important;
+            border-top-width: 2px !important;
+            width: 70px !important;
+          }
           .carousel-text-container {
             bottom: 15% !important;
             left: 5% !important;
-          }
-          .carousel-text-container h2 {
-            margin-bottom: 5px !important;
+            line-height: 1 !important;
           }
         }
       </style>
       <div class="carousel-text-container" style="position: absolute; bottom: 18%; left: 9.1%; color: white; max-width: 80%; padding: 0; line-height: 1.1;">
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
-        <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
-        <hr style="margin: clamp(0.8rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.5vw, 6px) solid white; width: clamp(80px, 40%, 200px); margin-left: 0;">
-        <h2 style="margin: clamp(0.8rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1.2rem, 4vw, 4rem);">gastro balonky</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">Hubněte</h2>
+        <h2 class="carousel-heading" style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 6vw, 5.8rem); font-weight: bold;">moderně!</h2>
+        <hr class="carousel-hr" style="margin: clamp(0.5rem, 2vw, 3.5rem) 0 clamp(0.5rem, 1vw, 10px) 0; border: none; border-top: clamp(2px, 0.4vw, 6px) solid white; width: clamp(70px, 40%, 200px); margin-left: 0;">
+        <h2 class="carousel-subheading" style="margin: clamp(0.5rem, 2vw, 2.5rem) 0 10px 0; font-size: clamp(1rem, 4vw, 4rem);">gastro balonky</h2>
       </div>
     `
   }
