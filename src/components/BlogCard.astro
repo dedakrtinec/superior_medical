@@ -1,4 +1,5 @@
 ---
+import { colors } from '../helpers/colors';
 interface BlogPost {
   slug: string;
   data: {
@@ -17,7 +18,7 @@ interface Props {
 
 const { post } = Astro.props;
 ---
-<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-transform hover:scale-105">
   <a href={`/blog/${post.slug}`}>
     <img
       src={post.data.image}
@@ -27,7 +28,7 @@ const { post } = Astro.props;
     <div class="p-6">
       <div class="flex gap-2 mb-3">
         {post.data.tags.map((tag: string) => (
-          <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+          <span class="px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-xs">
             {tag}
           </span>
         ))}

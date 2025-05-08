@@ -1,4 +1,6 @@
 ---
+import { colors } from '../helpers/colors';
+
 const treatmentSteps = [
   {
     step: 1,
@@ -48,7 +50,7 @@ const benefits = [
     </div>
 
     <!-- How it works -->
-    <div class="bg-gray-50 p-8 rounded-lg mb-12">
+    <div class="p-8 rounded-lg mb-12 shadow"}>
       <h3 class="text-2xl font-semibold mb-4">Jak funguje intragastrický balon Spatz?</h3>
       <p class="text-gray-600">
         Spatz balon je zaveden do žaludku endoskopicky během minimálně invazivního zákroku. Po naplnění fyziologickým roztokem zabírá část objemu žaludku, což pacientovi pomáhá dosáhnout pocitu sytosti s menším množstvím jídla. Výjimečnost systému Spatz spočívá ve schopnosti upravit objem balonu během léčby – pokud pacient například dosahuje nižšího úbytku hmotnosti, lze balon přenastavit tak, aby lépe podporoval hubnutí.
@@ -57,12 +59,12 @@ const benefits = [
 
     <div class="grid md:grid-cols-2 gap-8 mb-12">
       <!-- Benefits -->
-      <div class="bg-blue-50 p-6 rounded-lg">
+      <div class=" p-6 rounded-lg shadow" style={`background-color: ${colors.primary}`}>
         <h3 class="text-xl font-semibold mb-6">Výhody balonu Spatz</h3>
         <div class="space-y-4">
           {benefits.map(benefit => (
             <div class="flex items-start">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-800 flex-shrink-0 mt-1" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#173358] flex-shrink-0 mt-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
               </svg>
               <div class="ml-2">
