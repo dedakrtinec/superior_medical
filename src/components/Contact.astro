@@ -4,10 +4,10 @@ const contactInfo = {
   email: "info@superiormedical.cz",
 };
 ---
-<section id="contact" class="py-16 bg-white">
+<section id="contact" class="py-16 bg-white text-[#173358]">
   <div class="max-w-7xl mx-auto px-4">
     <h2 class="text-3xl font-bold mb-8 text-center">Kontaktujte nás</h2>
-    <p class="text-gray-600 mb-12 max-w-3xl mx-auto">
+    <p class="text-lg mb-12 max-w-3xl mx-auto">
       Jsme tu pro vás a rádi vám odpovíme na všechny dotazy ohledně našich produktů a služeb. Neváhejte nás kontaktovat telefonicky, e-mailem nebo prostřednictvím kontaktního formuláře níže. Těšíme se na spolupráci a jsme připraveni vám poskytnout odborné poradenství i veškeré potřebné informace.
     </p>
     <div class="grid md:grid-cols-2 gap-12">
@@ -36,26 +36,26 @@ const contactInfo = {
           name="name"
           type="text"
           placeholder="Jméno"
-          class="w-full p-3 border rounded-lg"
+          class="w-full p-3 border rounded-lg border-[#173358]"
           required
         />
         <input
           name="email"
           type="email"
           placeholder="E-mail"
-          class="w-full p-3 border rounded-lg"
+          class="w-full p-3 border rounded-lg border-[#173358]"
           required
         />
         <textarea
           name="message"
           placeholder="Zpráva"
-          class="w-full p-3 border rounded-lg h-32"
+          class="w-full p-3 border rounded-lg h-32 border-[#173358]"
           required
         ></textarea>
         <div class="mb-6">
           <label class="flex items-start">
             <input type="checkbox" required class="mt-1 mr-2">
-            <span class="text-sm text-gray-600">
+            <span class="text-sm">
               Souhlasím se zpracováním osobních údajů. Přečetl/a jsem si
               <a href="/gdpr" class="text-[#50a6d3] underline" target="_blank">zásady ochrany osobních údajů</a>
               a beru na vědomí, že mé údaje budou zpracovány za účelem vyřízení tohoto požadavku a mohou být dočasně uloženy u poskytovatele formulářové služby po dobu 30 dnů. *

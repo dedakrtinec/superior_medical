@@ -26,7 +26,7 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
 <Layout title="Blog - Superior Medical">
   <CookieConsent />
   <Header />
-  <main class="py-16">
+  <main class="py-16 text-[#173358]">
     <div class="max-w-7xl mx-auto px-4">
       <h1 class="text-4xl font-bold mb-8 text-center">Blog</h1>
       
@@ -36,10 +36,9 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
             type="text"
             id="search"
             placeholder="Hledat v článcích..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-[#173358] rounded-lg"
           />
         </div>
-
         <div class="mb-8">
           <h3 class="text-lg font-semibold mb-3">Filtrovat podle témat</h3>
           <div class="flex flex-wrap gap-2" id="tag-container">
@@ -91,8 +90,8 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
                   )}
                 </div>
                 <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
-                <p class="text-gray-600 mb-4">{post.data.excerpt}</p>
-                <div class="flex items-center justify-between text-sm text-gray-500">
+                <p class="text-[#173358] mb-4">{post.data.excerpt}</p>
+                <div class="flex items-center justify-between text-sm">
                   <span>{post.data.author}</span>
                   <time>{new Date(post.data.publishDate).toLocaleDateString('cs-CZ')}</time>
                 </div>
