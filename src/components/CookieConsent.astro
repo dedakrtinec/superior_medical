@@ -4,8 +4,13 @@
 
 <div id="cookie-consent" class="cookie-popup">
     <div class="cookie-content">
-      <p>Tato stránka používá pouze jednu technickou cookie, která je nezbytná pro správné fungování Netlify CMS.</p>
+      <p>Používáme nezbytné cookies, abychom zajistili správné fungování našeho webu. Tyto cookies jsou technicky nutné a neumožňují sledování uživatelů.</p>
+      <div>
       <button id="accept-cookies">Rozumím</button>
+      <a href="/gdpr">
+      <button id="more-info">Více informací</button>
+      </a>
+    </div>
     </div>
   </div>
   
@@ -14,7 +19,7 @@
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background-color: #fff;
+      background-color: #e7f5fa;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       border-radius: 8px;
       padding: 16px 24px;
@@ -36,7 +41,7 @@
     }
   
     button {
-      background-color: #4a69bd;
+      background-color: #50a6d3;
       color: white;
       border: none;
       padding: 8px 16px;
@@ -47,9 +52,10 @@
       align-self: flex-end;
     }
   
-    button:hover {
-      background-color: #3c5aa6;
+    #accept-cookies:hover {
+      background-color: #173358;
     }
+
   </style>
   
   <script>

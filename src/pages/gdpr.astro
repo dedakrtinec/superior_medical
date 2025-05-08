@@ -1,10 +1,12 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Ochrana osobních údajů - Superior Medical">
+  <CookieConsent />
   <Header />
   <main class="py-16">
     <div class="max-w-4xl mx-auto px-4">
@@ -61,6 +63,49 @@ import Footer from '../components/Footer.astro';
           <li>Telefon: [telefon]</li>
           <li>Adresa: [adresa]</li>
         </ul>
+        <h2>8. Cookies a webové technologie</h2>
+<p>Naše webové stránky používají pouze nezbytné technické cookies potřebné pro zajištění základních funkcí webu a správné fungování Netlify CMS. Na rozdíl od mnoha jiných webů nepoužíváme žádné cookies pro analytické, marketingové nebo reklamní účely.</p>
+
+<h3>8.1 Co jsou cookies?</h3>
+<p>Cookies jsou malé textové soubory, které se ukládají do vašeho prohlížeče nebo zařízení při návštěvě webových stránek. Tyto soubory umožňují webovým stránkám zapamatovat si vaše akce a preference po určitou dobu.</p>
+
+<h3>8.2 Jaké cookies používáme</h3>
+<p>Na našich stránkách používáme pouze následující typy cookies:</p>
+
+<table class="min-w-full border-collapse mt-4 mb-6">
+  <thead>
+    <tr>
+      <th class="border border-gray-300 px-4 py-2 bg-gray-50">Název</th>
+      <th class="border border-gray-300 px-4 py-2 bg-gray-50">Účel</th>
+      <th class="border border-gray-300 px-4 py-2 bg-gray-50">Doba trvání</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">netlify-cms</td>
+      <td class="border border-gray-300 px-4 py-2">Nezbytná technická cookie pro správné fungování administračního rozhraní Netlify CMS</td>
+      <td class="border border-gray-300 px-4 py-2">Po dobu relace</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">cookie-consent-accepted</td>
+      <td class="border border-gray-300 px-4 py-2">Ukládá informaci o tom, že jste viděli a přijali oznámení o cookies</td>
+      <td class="border border-gray-300 px-4 py-2">1 rok</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>8.3 Správa cookies</h3>
+<p>Většina webových prohlížečů umožňuje spravovat cookies prostřednictvím nastavení prohlížeče. Můžete:</p>
+<ul>
+  <li>Zobrazit cookies uložené ve vašem prohlížeči</li>
+  <li>Odstranit jednotlivé cookies nebo všechny cookies</li>
+  <li>Blokovat cookies třetích stran nebo všechny cookies</li>
+</ul>
+
+<p>Upozorňujeme, že odmítnutí nebo odstranění nezbytných technických cookies může mít vliv na funkčnost našeho webu, zejména na administrační části využívající Netlify CMS.</p>
+
+<h3>8.4 Další informace o cookies</h3>
+<p>Podrobnější informace o cookies a o tom, jak je spravovat, můžete najít na stránkách <a href="https://www.allaboutcookies.org/" target="_blank" rel="noopener noreferrer">www.allaboutcookies.org</a> nebo <a href="https://www.aboutcookies.org/" target="_blank" rel="noopener noreferrer">www.aboutcookies.org</a>.</p>
       </div>
     </div>
   </main>

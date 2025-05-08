@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { colors } from '../../helpers/colors';
+import CookieConsent from '../../components/CookieConsent.astro';
 type BlogPost = CollectionEntry<'blog'>;
 
 const posts = await getCollection('blog');
@@ -23,6 +24,7 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
 ---
 
 <Layout title="Blog - Superior Medical">
+  <CookieConsent />
   <Header />
   <main class="py-16">
     <div class="max-w-7xl mx-auto px-4">
