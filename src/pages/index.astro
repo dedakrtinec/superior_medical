@@ -8,6 +8,7 @@ import Hero from '../components/Hero.astro';
 import Partners from '../components/Partners.astro';
 import Products from '../components/Products.astro';
 import Layout from '../layouts/Layout.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 // Pokud používáte content collections, je potřeba přidat konfiguraci
 import { getCollection } from 'astro:content';
 
@@ -23,6 +24,7 @@ const images = [
 <Layout title="Superior Medical - Špičkové zdravotnické pomůcky">
   <Header />
   <main>
+    <CookieConsent />
     <Carousel images={images} id="main-carousel"/>
     <Hero />
     <Products />

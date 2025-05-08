@@ -1,0 +1,75 @@
+---
+// CookieConsent.astro
+---
+
+<div id="cookie-consent" class="cookie-popup">
+    <div class="cookie-content">
+      <p>Tato stránka používá pouze jednu technickou cookie, která je nezbytná pro správné fungování Netlify CMS.</p>
+      <button id="accept-cookies">Rozumím</button>
+    </div>
+  </div>
+  
+  <style>
+    .cookie-popup {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      padding: 16px 24px;
+      z-index: 9999;
+      max-width: 380px;
+      display: none;
+    }
+  
+    .cookie-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .cookie-content p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  
+    button {
+      background-color: #4a69bd;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      align-self: flex-end;
+    }
+  
+    button:hover {
+      background-color: #3c5aa6;
+    }
+  </style>
+  
+  <script>
+    // Check if the user has already accepted cookies
+    document.addEventListener('DOMContentLoaded', () => {
+      const cookieConsent = document.getElementById('cookie-consent');
+      const acceptButton = document.getElementById('accept-cookies');
+      
+      // Check if user already accepted
+      const hasConsent = localStorage.getItem('cookie-consent-accepted');
+      
+      if (!hasConsent) {
+        cookieConsent && (cookieConsent.style.display = 'block');
+      }
+      
+      // Set listener for the accept button
+      acceptButton && (acceptButton.addEventListener('click', () => {
+        localStorage.setItem('cookie-consent-accepted', 'true');
+        cookieConsent && (cookieConsent.style.display = 'none');
+      }));
+    });
+  </script>
+  
