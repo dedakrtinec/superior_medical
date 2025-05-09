@@ -1,9 +1,11 @@
-import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import { defineConfig } from 'astro/config';
+
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  integrations: [tailwind()],
-  // Přidáme konfiguraci pro content collections
+  site: 'https://superiormedical.netlify.app/', //TODO: změnit na správný url
+  integrations: [tailwind(), sitemap()],
   content: {
     collections: {
       blog: {
