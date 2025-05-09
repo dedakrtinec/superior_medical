@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
-
 Disallow: /admin/
-
-Sitemap: https://superiormedical.netlify.app/
-sitemap-index.xml
+Sitemap: https://superiormedical.netlify.app/sitemap-index.xml
