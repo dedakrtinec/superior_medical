@@ -9,62 +9,162 @@ import Hero from '../components/Hero.astro';
 import Partners from '../components/Partners.astro';
 import Products from '../components/Products.astro';
 import Layout from '../layouts/Layout.astro';
-// Pokud používáte content collections, je potřeba přidat konfiguraci
 import { getCollection } from 'astro:content';
 
 // Získání blogových příspěvků pro BlogPreview
 const allPosts = await getCollection('blog');
 
+// Definice slideů pro carousel
 const carouselSlides = [
   {
     src: "/images/banner1.jpg",
-    alt: "První obrázek",
+    alt: "Intragastrické balóny Spatz pro moderní léčbu obezity",
     html: `
-      <div class="carousel-text-container">
-        <div style="line-height: 0.9;">
-          <h2 class="carousel-heading">Hubněte</h2>
-          <h2 class="carousel-heading">moderně!</h2>
-        </div>
-        
-        <hr class="carousel-hr">
-        <h2 class="carousel-subheading">gastro balonky</h2>
-      </div>
-    `
+     <div class="carousel-text-container">
+       <div style="line-height: 0.9;">
+         <h2 class="carousel-heading">Hubněte</h2>
+         <h2 class="carousel-heading">moderně!</h2>
+       </div>
+       <hr class="carousel-hr">
+       <h2 class="carousel-subheading">gastro balonky</h2>
+     </div>
+     `
   },
   {
     src: "/images/banner2.jpg",
-    alt: "Druhý obrázek",
+    alt: "Špičkové zdravotnické pomůcky pro obezitologii a gastroenterologii",
     html: `
-      <div class="carousel-text-container">
-        <div style="line-height: 0.9;">
-          <h2 class="carousel-heading">Hubněte</h2>
-          <h2 class="carousel-heading">moderně!</h2>
-        </div>
-        
-        <hr class="carousel-hr">
-        <h2 class="carousel-subheading">gastro balonky</h2>
-      </div>
-    `
+     <div class="carousel-text-container">
+       <div style="line-height: 0.9;">
+         <h2 class="carousel-heading">Hubněte</h2>
+         <h2 class="carousel-heading">moderně!</h2>
+       </div>
+       <hr class="carousel-hr">
+       <h2 class="carousel-subheading">gastro balonky</h2>
+     </div>
+     `
   },
   {
     src: "/images/banner1.jpg",
-    alt: "Třetí obrázek",
+    alt: "Neinvazivní řešení pro léčbu nadváhy a obezity - Intragastrické balóny Spatz",
     html: `
-      <div class="carousel-text-container">
-        <div style="line-height: 0.9;">
-          <h2 class="carousel-heading">Hubněte</h2>
-          <h2 class="carousel-heading">moderně!</h2>
-        </div>
-        
-        <hr class="carousel-hr">
-        <h2 class="carousel-subheading">gastro balonky</h2>
-      </div>
-    `
+     <div class="carousel-text-container">
+       <div style="line-height: 0.9;">
+         <h2 class="carousel-heading">Hubněte</h2>
+         <h2 class="carousel-heading">moderně!</h2>
+       </div>
+       <hr class="carousel-hr">
+       <h2 class="carousel-subheading">gastro balonky</h2>
+     </div>
+     `
   }
 ];
+
+// SEO metadata pro hlavní stránku - optimalizováno na základě skutečného obsahu
+const pageTitle = "Superior Medical - Intragastrické balóny Spatz pro léčbu obezity";
+const pageDescription = "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii. Specializujeme se na intragastrické balóny Spatz s nastavitelným objemem a 12-měsíční účinností.";
+const pageImage = "/images/banner1.jpg"; //TODO: změnit na správný image
+
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Jak funguje intragastrický balón Spatz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spatz balón je zaveden do žaludku endoskopicky během minimálně invazivního zákroku. Po naplnění fyziologickým roztokem zabírá část objemu žaludku, což pacientovi pomáhá dosáhnout pocitu sytosti s menším množstvím jídla. Výjimečnost systému Spatz spočívá ve schopnosti upravit objem balónu během léčby."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pro koho je Spatz balón vhodný?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spatz balón je ideální volbou pro osoby, které se dlouhodobě potýkají s nadváhou či obezitou a hledají účinné řešení bez nutnosti podstoupit bariatrickou operaci. Tento balón je obvykle doporučován pro pacienty s BMI mezi 27 a 40, kteří nedosáhli úspěchu tradičními metodami hubnutí."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jaké jsou výhody balónu Spatz oproti jiným metodám?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spatz nabízí několik unikátních výhod: 1) Nastavitelný objem, který umožňuje přizpůsobení balónu potřebám pacienta, 2) Dlouhodobý efekt - zůstává v žaludku až 12 měsíců, 3) Minimalizace nežádoucích účinků díky možnosti úpravy objemu, 4) Nechirurgický zákrok s nižšími riziky a kratší dobou zotavení."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jak probíhá léčba pomocí balónu Spatz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Léčba zahrnuje tři hlavní fáze: 1) Zavedení balónu endoskopickým zákrokem trvajícím přibližně 20 minut v sedaci, 2) Úprava objemu během léčby dle potřeby pro dosažení optimálních výsledků, 3) Odstranění balónu po 12 měsících opět endoskopicky."
+      }
+    }
+  ]
+};
+
+// Schema.org strukturovaná data pro celou stránku s přesnými informacemi
+const mainPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "about": {
+    "@type": "MedicalDevice",
+    "name": "Intragastrický balón Spatz",
+    "description": "Nastavitelný intragastrický balón pro léčbu nadváhy a obezity s 12-měsíční účinností."
+  },
+  "specialty": "Obezitologie a gastroenterologie",
+  "audience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Odborníci v oboru zdravotnictví a pacienti s BMI 27-40"
+  },
+  "mainEntity": {
+    "@type": "MedicalProcedure",
+    "name": "Léčba intragastrickým balónem Spatz",
+    "procedureType": "Neinvazivní zdravotnický postup",
+    "bodyLocation": "Žaludek",
+    "preparation": "Endoskopický zákrok v sedaci",
+    "followup": "Možnost úpravy objemu balónu podle potřeb pacienta"
+  },
+  "provider": {
+    "@type": "MedicalOrganization",
+    "name": "Superior Medical",
+    "description": "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii",
+    "foundingDate": "2023",
+    "telephone": "+420792317508",
+    "email": "info@superiormedical.cz"
+  }
+};
+
+// Organizační schema pro lepší lokální SEO
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Superior Medical",
+  "description": "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii, specializující se na intragastrické balóny Spatz.",
+  "url": Astro.site || "https://superiormedical.netlify.app", //TODO: změnit na správný url
+  "logo": new URL("/images/favicon.svg", Astro.site || "https://superiormedical.netlify.app").toString(), //TODO: změnit na správný logo
+  "foundingDate": "2023",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+420792317508",
+    "contactType": "customer service",
+    "email": "info@superiormedical.cz"
+  },
+};
+
+// Sloučení všech struktur do jednoho JSON-LD bloku
+const combinedSchema = [mainPageSchema, organizationSchema, faqData];
 ---
 
-<Layout title="Superior Medical - Špičkové zdravotnické pomůcky">
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  image={pageImage}
+>
+  <!-- Kombinovaná strukturovaná data -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(combinedSchema)} />
+  
   <Header />
   <main>
     <CookieConsent />
@@ -77,4 +177,3 @@ const carouselSlides = [
   </main>
   <Footer />
 </Layout>
-

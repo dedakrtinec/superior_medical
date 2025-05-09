@@ -19,57 +19,224 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+// Připrava dat pro SEO
+const formattedPublishDate = new Date(entry.data.publishDate).toISOString();
+const formattedUpdateDate = entry.data.updateDate 
+  ? new Date(entry.data.updateDate).toISOString() 
+  : formattedPublishDate;
+
+// Získání souvisejících článků podle tagů (max 3)
+const relatedPosts = await getCollection('blog', (post: BlogPost) => {
+  if (post.slug === entry.slug) return false;
+  return post.data.tags.some((tag: string) => entry.data.tags.includes(tag));
+});
+
+// Řazení a omezení počtu souvisejících článků
+const sortedRelatedPosts = relatedPosts
+  .sort((a: BlogPost, b: BlogPost) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
+  .slice(0, 3);
+
+// Strukturovaná data pro článek
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": entry.data.title,
+  "description": entry.data.excerpt,
+  "image": entry.data.image,
+  "datePublished": formattedPublishDate,
+  "dateModified": formattedUpdateDate,
+  "author": {
+    "@type": "Person",
+    "name": entry.data.author,
+    "jobTitle": entry.data.authorRole || "Autor"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Superior Medical",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL("/images/favicon.svg", Astro.site || "https://superiormedical.netlify.app").toString()
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.href
+  },
+  "keywords": entry.data.tags.join(", ")
+};
+
+// Breadcrumbs strukturovaná data
+const breadcrumbsSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Domů",
+      "item": new URL("/", Astro.site || "https://superiormedical.netlify.app").toString()
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": new URL("/blog", Astro.site || "https://superiormedical.netlify.app").toString()
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": entry.data.title,
+      "item": Astro.url.href
+    }
+  ]
+};
+
+// Kombinace všech schémat
+const combinedSchema = [articleSchema, breadcrumbsSchema];
+
+// Příprava metadat pro SEO
+const pageTitle = `${entry.data.title} | Blog Superior Medical`;
+const pageDescription = entry.data.excerpt || `Odborný článek na téma ${entry.data.tags.join(", ")} od ${entry.data.author}.`;
+const pageKeywords = entry.data.tags.join(", ") + ", léčba obezity, intragastrické balóny, Spatz, gastroenterologie";
 ---
 
-<Layout title={entry.data.title}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  image={entry.data.image || '/images/default-blog-image.jpg'}
+>
+  <!-- Strukturovaná data pro článek -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(combinedSchema)} />
+  
   <Header />
   <main class="max-w-4xl mx-auto px-4 py-16">
-    <article>
+    <!-- Breadcrumbs pro navigaci a SEO -->
+    <nav aria-label="breadcrumbs" class="text-sm py-2 mb-6">
+      <ol class="flex">
+        <li><a href="/" class="text-[#173358] hover:underline">Domů</a></li>
+        <li class="mx-2">/</li>
+        <li><a href="/blog" class="text-[#173358] hover:underline">Blog</a></li>
+        <li class="mx-2">/</li>
+        <li class="font-semibold">{entry.data.title}</li>
+      </ol>
+    </nav>
+    
+    <article itemscope itemtype="https://schema.org/BlogPosting">
       <div class="mb-8">
-        <img 
-          src={entry.data.image || '/api/placeholder/800/400'} 
-          alt={entry.data.title}
+        <img
+          src={entry.data.image || '/api/placeholder/800/400'}
+          alt={`Obrázek k článku ${entry.data.title}`}
           class="w-full h-64 object-cover rounded-lg"
+          itemprop="image"
         />
       </div>
-
       <div class="mb-8">
-        <div class="flex gap-2 mb-4">
+        <div class="flex flex-wrap gap-2 mb-4">
           {entry.data.tags.map((tag: string) => (
-            <span class="px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-sm">
+            <a href={`/blog?tag=${tag}`} class="px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-sm hover:bg-[#173358] hover:text-white transition-colors">
               {tag}
-            </span>
+            </a>
           ))}
         </div>
-
-        <h1 class="text-4xl font-bold mb-4">
+        <h1 class="text-4xl font-bold mb-4" itemprop="headline">
           {entry.data.title}
         </h1>
-
-        <div class="flex items-center justify-between text-gray-600 mb-8">
-          <div>
-            <p class="font-semibold">{entry.data.author}</p>
-            <p class="text-sm">{entry.data.authorRole}</p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-gray-600 mb-8">
+          <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <p class="font-semibold" itemprop="name">{entry.data.author}</p>
+            {entry.data.authorRole && (
+              <p class="text-sm" itemprop="jobTitle">{entry.data.authorRole}</p>
+            )}
           </div>
-          <time datetime={entry.data.publishDate} class="text-sm">
-            {new Date(entry.data.publishDate).toLocaleDateString('cs-CZ')}
-          </time>
+          <div class="mt-2 sm:mt-0 flex items-center">
+            <span class="mr-2">Publikováno:</span>
+            <time datetime={formattedPublishDate} class="text-sm" itemprop="datePublished">
+              {new Date(entry.data.publishDate).toLocaleDateString('cs-CZ')}
+            </time>
+            {entry.data.updateDate && (
+              <div class="ml-4 flex items-center">
+                <span class="mr-2">Aktualizováno:</span>
+                <time datetime={formattedUpdateDate} class="text-sm" itemprop="dateModified">
+                  {new Date(entry.data.updateDate).toLocaleDateString('cs-CZ')}
+                </time>
+              </div>
+            )}
+          </div>
         </div>
-
-        <div class="text-lg text-gray-600 mb-6">
+        <div class="text-lg text-gray-600 mb-6" itemprop="description">
           {entry.data.excerpt}
         </div>
       </div>
-
-      <div class="prose max-w-none">
+      <div class="prose max-w-none" itemprop="articleBody">
         <Content />
       </div>
-
+      
+      <!-- Tabulka obsahu pro delší články (lze implementovat JS) -->
+      {entry.data.showTableOfContents && (
+        <div class="bg-gray-50 p-4 rounded-lg my-8">
+          <h2 class="text-xl font-bold mb-3">Obsah článku</h2>
+          <div id="table-of-contents">
+            <!-- JS vygeneruje obsah -->
+          </div>
+        </div>
+      )}
+      
+      <!-- Informace o autorovi -->
       <div class="mt-12 pt-8 border-t border-gray-200">
-        <h2 class="text-2xl font-bold mb-4">Související články</h2>
+        <div class="flex flex-col sm:flex-row gap-4 items-start">
+          {entry.data.authorImage && (
+            <img 
+              src={entry.data.authorImage} 
+              alt={`Fotografie autora ${entry.data.author}`}
+              class="w-16 h-16 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <h3 class="text-xl font-bold">{entry.data.author}</h3>
+            {entry.data.authorRole && <p class="text-gray-600">{entry.data.authorRole}</p>}
+            {entry.data.authorBio && <p class="mt-2">{entry.data.authorBio}</p>}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Související články -->
+      {sortedRelatedPosts.length > 0 && (
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <h2 class="text-2xl font-bold mb-6">Související články</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {sortedRelatedPosts.map((post: BlogPost) => (
+              <a href={`/blog/${post.slug}`} class="group">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden group-hover:shadow-lg transition-shadow">
+                  <img
+                    src={post.data.image || '/api/placeholder/400/200'}
+                    alt={post.data.title}
+                    class="w-full h-32 object-cover"
+                    loading="lazy"
+                  />
+                  <div class="p-4">
+                    <h3 class="font-bold mb-2 group-hover:text-[#50a6d3] transition-colors">{post.data.title}</h3>
+                    <div class="flex justify-between text-sm text-gray-600">
+                      <span>{post.data.author}</span>
+                      <time datetime={new Date(post.data.publishDate).toISOString()}>
+                        {new Date(post.data.publishDate).toLocaleDateString('cs-CZ')}
+                      </time>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      <!-- Tagy na konci článku -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <h3 class="text-lg font-semibold mb-3">Témata v článku</h3>
         <div class="flex flex-wrap gap-2">
           {entry.data.tags.map((tag: string) => (
-            <a
+            <a 
               href={`/blog?tag=${tag}`}
               class="px-3 py-1 bg-[#e7f5fa] text-[#173358] hover:bg-[#173358] hover:text-white rounded-full text-sm transition-colors"
             >
@@ -79,22 +246,23 @@ const { Content } = await entry.render();
         </div>
       </div>
     </article>
-
+    
+    <!-- Navigace zpět -->
     <div class="mt-8 pt-8 border-t border-gray-200">
-      <a 
+      
         href="/blog"
         class="inline-flex items-center text-[#173358] hover:text-[#50a6d3]"
       >
-        <svg 
-          class="w-4 h-4 mr-2" 
-          fill="none" 
-          stroke="currentColor" 
+        <svg
+          class="w-4 h-4 mr-2"
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path 
-            stroke-linecap="round" 
-            stroke-linejoin="round" 
-            stroke-width="2" 
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
             d="M15 19l-7-7 7-7"
           />
         </svg>
@@ -106,38 +274,84 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
-  /* Styly pro Markdown obsah */
-  .prose {
-    @apply text-gray-800 leading-relaxed;
-  }
-  .prose h2 {
-    @apply text-2xl font-bold mt-8 mb-4;
-  }
-  .prose h3 {
-    @apply text-xl font-bold mt-6 mb-3;
-  }
-  .prose p {
-    @apply mb-4;
-  }
-  .prose ul {
-    @apply list-disc list-inside mb-4;
-  }
-  .prose ol {
-    @apply list-decimal list-inside mb-4;
-  }
-  .prose a {
-    @apply text-blue-600 hover:text-blue-800 underline;
-  }
-  .prose blockquote {
-    @apply border-l-4 border-gray-200 pl-4 italic my-4;
-  }
-  .prose img {
-    @apply rounded-lg my-6;
-  }
-  .prose code {
-    @apply bg-gray-100 rounded px-1;
-  }
-  .prose pre {
-    @apply bg-gray-100 rounded p-4 overflow-x-auto my-4;
-  }
+/* Styly pro Markdown obsah */
+.prose {
+  @apply text-gray-800 leading-relaxed;
+}
+.prose h2 {
+  @apply text-2xl font-bold mt-8 mb-4;
+}
+.prose h3 {
+  @apply text-xl font-bold mt-6 mb-3;
+}
+.prose p {
+  @apply mb-4;
+}
+.prose ul {
+  @apply list-disc list-inside mb-4;
+}
+.prose ol {
+  @apply list-decimal list-inside mb-4;
+}
+.prose a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+.prose blockquote {
+  @apply border-l-4 border-gray-200 pl-4 italic my-4;
+}
+.prose img {
+  @apply rounded-lg my-6;
+}
+.prose code {
+  @apply bg-gray-100 rounded px-1;
+}
+.prose pre {
+  @apply bg-gray-100 rounded p-4 overflow-x-auto my-4;
+}
 </style>
+
+<script>
+// Generování obsahu pro delší články
+document.addEventListener('DOMContentLoaded', () => {
+  // Nalezení všech nadpisů v článku
+  const article = document.querySelector('.prose');
+  if (!article) return;
+  
+  const headings = article.querySelectorAll('h2, h3');
+  const tableOfContents = document.getElementById('table-of-contents');
+  
+  if (headings.length > 3 && tableOfContents) {
+    const toc = document.createElement('ul');
+    toc.className = 'list-none space-y-2';
+    
+    headings.forEach((heading, index) => {
+      // Přidání ID pro každý nadpis, pokud ještě nemá
+      if (!heading.id) {
+        heading.id = `heading-${index}`;
+      }
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.textContent = heading.textContent;
+      a.className = 'text-[#173358] hover:text-[#50a6d3] hover:underline';
+      
+      // Odsazení pro H3
+      if (heading.tagName.toLowerCase() === 'h3') {
+        li.className = 'ml-4';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+    
+    tableOfContents.appendChild(toc);
+  } else if (tableOfContents) {
+    // Skrýt tabulku obsahu, pokud je příliš málo nadpisů
+    const container = tableOfContents.closest('.bg-gray-50');
+    if (container) {
+      (container as HTMLElement).style.display = 'none';
+    }
+  }
+});
+</script>

@@ -4,12 +4,15 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { colors } from '../../helpers/colors';
 import CookieConsent from '../../components/CookieConsent.astro';
 type BlogPost = CollectionEntry<'blog'>;
 
 const posts = await getCollection('blog');
 console.log('Načtené posty:', posts);
+
+const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
 
 // Explicitní typování pro tagy
 const tagSet = new Set<string>();
@@ -18,23 +21,106 @@ posts.forEach((post: BlogPost) => {
 });
 const allTags = Array.from(tagSet);
 
-const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) => 
-  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
-);
+// SEO metadata pro blog sekci
+const pageTitle = "Blog o léčbě obezity a intragastrických balónech Spatz";
+const pageDescription = "Odborné články o moderních metodách léčby obezity, intragastrických balónech Spatz a zdravém životním stylu. Aktuality z oblasti obezitologie a gastroenterologie.";
+const pageKeywords = "intragastrické balóny, Spatz, léčba obezity, hubnutí, gastroenterologie, obezitologie, zdravotnické pomůcky, odborné články";
+const pageImage = "/images/blog-header.jpg"; // Použijte vlastní obrázek pro blog
+
+// Strukturovaná data pro BlogPosting
+const blogListingSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": pageTitle,
+  "description": pageDescription,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Superior Medical",
+    "url": Astro.site || "https://superiormedical.netlify.app" //TODO: změnit na správný url
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Léčba obezity pomocí intragastrických balónů",
+    "description": "Moderní neinvazivní přístupy k léčbě nadváhy a obezity."
+  },
+  "blogPosts": sortedPosts.slice(0, 5).map((post: BlogPost) => ({
+    "@type": "BlogPosting",
+    "headline": post.data.title,
+    "description": post.data.excerpt,
+    "image": post.data.image,
+    "datePublished": new Date(post.data.publishDate).toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": post.data.author
+    },
+    "url": new URL(`/blog/${post.slug}`, Astro.site || "https://superiormedical.netlify.app").toString(),
+    "keywords": post.data.tags.join(", ")
+  }))
+};
+
+// Breadcrumbs schema pro navigaci
+const breadcrumbsSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Domů",
+      "item": new URL("/", Astro.site || "https://superiormedical.netlify.app").toString() //TODO: změnit na správný url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": new URL("/blog", Astro.site || "https://superiormedical.netlify.app").toString() //TODO: změnit na správný url
+    }
+  ]
+};
+
+// Sloučení všech schémat do jednoho bloku
+const combinedSchema = [blogListingSchema, breadcrumbsSchema];
 ---
 
-<Layout title="Blog - Superior Medical">
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  image={pageImage}
+>
+  <!-- Strukturovaná data pro blog -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(combinedSchema)} />
+  
   <CookieConsent />
   <Header />
+  
+  <!-- Breadcrumbs pro lepší SEO a navigaci -->
+  <div class="max-w-7xl mx-auto px-4 pt-4">
+    <nav aria-label="breadcrumbs" class="text-sm py-2">
+      <ol class="flex">
+        <li><a href="/" class="text-[#173358] hover:underline">Domů</a></li>
+        <li class="mx-2">/</li>
+        <li class="font-semibold">Blog</li>
+      </ol>
+    </nav>
+  </div>
+  
   <main class="py-16 text-[#173358]">
     <div class="max-w-7xl mx-auto px-4">
-      <h1 class="text-4xl font-bold mb-8 text-center">Blog</h1>
+      <h1 class="text-4xl font-bold mb-8 text-center">Blog od odborníků v léčbě obezity</h1>
+      
+      <!-- Krátký úvod pro SEO - přidává kontext a klíčová slova -->
+      <div class="mb-10 max-w-3xl mx-auto text-center">
+        <p>Vítejte na našem blogu, kde sdílíme odborné informace o moderních metodách léčby nadváhy a obezity, 
+        se zaměřením na intragastrické balóny Spatz. Sledujte nejnovější trendy v gastroenterologii a obezitologii.</p>
+      </div>
       
       <div class="mb-12">
         <div class="w-full max-w-xl mx-auto mb-8">
           <input
             type="text"
             id="search"
+            aria-label="Vyhledávání v článcích"
             placeholder="Hledat v článcích..."
             class="w-full px-4 py-2 border border-[#173358] rounded-lg"
           />
@@ -67,39 +153,54 @@ const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) =>
           </div>
         </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
-        {sortedPosts.map((post: BlogPost) => (
-          <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-transform hover:scale-105">
-            <a href={`/blog/${post.slug}`}>
-              <img
-                src={post.data.image as string}
-                alt={post.data.title}
-                class="w-full h-48 object-cover"
-              />
-              <div class="p-6">
-                <div class="flex flex-wrap gap-2 mb-3">
-                  {post.data.tags.slice(0, 4).map((tag: string) => (
-                    <span class="tag px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-xs flex items-center justify-center min-h-[1.5rem]" title={tag}>
-                      {tag}
-                    </span>
-                  ))}
-                  {post.data.tags.length > 4 && (
-                    <span class="px-2 py-1 bg-gray-100 text-gray-600 flex items-center justify-center rounded-full text-xs min-h-[1.5rem]">
-                      +{post.data.tags.length - 4}
-                    </span>
-                  )}
-                </div>
-                <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
-                <p class="text-[#173358] mb-4">{post.data.excerpt}</p>
-                <div class="flex items-center justify-between text-sm">
-                  <span>{post.data.author}</span>
-                  <time>{new Date(post.data.publishDate).toLocaleDateString('cs-CZ')}</time>
-                </div>
-              </div>
-            </a>
-          </article>
-        ))}
-      </div>
+      <!-- Úprava HTML struktury v Astro šabloně -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
+  {sortedPosts.map((post: BlogPost) => (
+    <article 
+      class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-transform hover:scale-105"
+      data-tags={post.data.tags.join(',')}
+    >
+      <a href={`/blog/${post.slug}`} class="block h-full">
+        <img
+          src={post.data.image as string}
+          alt={post.data.title}
+          class="w-full h-48 object-cover"
+          loading="lazy"
+        />
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            {post.data.tags.slice(0, 4).map((tag: string) => (
+              <span class="tag px-2 py-1 bg-[#e7f5fa] text-[#173358] rounded-full text-xs flex items-center justify-center min-h-[1.5rem]" title={tag}>
+                {tag}
+              </span>
+            ))}
+            {post.data.tags.length > 4 && (
+              <span class="px-2 py-1 bg-gray-100 text-gray-600 flex items-center justify-center rounded-full text-xs min-h-[1.5rem]">
+                +{post.data.tags.length - 4}
+              </span>
+            )}
+          </div>
+          <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
+          <p class="text-[#173358] mb-4">{post.data.excerpt}</p>
+          <div class="flex items-center justify-between text-sm mt-auto">
+            <span class="font-medium">
+              <span class="sr-only">Autor: </span>{post.data.author}
+            </span>
+            <time datetime={new Date(post.data.publishDate).toISOString()}>
+              {new Date(post.data.publishDate).toLocaleDateString('cs-CZ')}
+            </time>
+          </div>
+        </div>
+      </a>
+    </article>
+  ))}
+</div>
+
+      {sortedPosts.length === 0 && (
+        <div class="text-center py-10">
+          <p class="text-xl">Zatím nemáme žádné články. Navštivte nás brzy pro nový obsah.</p>
+        </div>
+      )}
     </div>
   </main>
   <Footer />
@@ -111,98 +212,193 @@ interface HTMLElementWithDataset extends HTMLElement {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Zachováváme váš původní kód pro filtrování a tagování
+  console.log('Script načten - inicializuji filtrování tagů');
+  
   const searchInput = document.getElementById('search') as HTMLInputElement;
-  const blogPosts = document.getElementById('blog-posts');
+  const blogPosts = document.getElementById('blog-posts') as HTMLElement;
   let currentTag: string | null = null;
 
-  // Přidáváme kód pro přepínání zobrazení tagů
-  const visibleTags = document.getElementById('visible-tags');
-  const allTags = document.getElementById('all-tags');
-  const showMoreButton = document.getElementById('show-more-tags');
-  const showLessButton = document.getElementById('show-less-tags');
+  // Přepínání zobrazení tagů
+  const visibleTags = document.getElementById('visible-tags') as HTMLElement;
+  const allTags = document.getElementById('all-tags') as HTMLElement;
+  const showMoreButton = document.getElementById('show-more-tags') as HTMLButtonElement;
+  const showLessButton = document.getElementById('show-less-tags') as HTMLButtonElement;
 
-  // Přepínání mezi zobrazením více/méně tagů
-  showMoreButton?.addEventListener('click', () => {
-    visibleTags?.classList.add('hidden');
-    allTags?.classList.remove('hidden');
-    allTags?.classList.add('flex');
-  });
-
-  showLessButton?.addEventListener('click', () => {
-    allTags?.classList.remove('flex');
-    allTags?.classList.add('hidden');
-    visibleTags?.classList.remove('hidden');
-  });
-
-  // Zpracování URL parametru při načtení stránky
-  function getTagFromURL(): string | null {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('tag');
+  if (showMoreButton) {
+    showMoreButton.addEventListener('click', function(this: HTMLButtonElement) {
+      console.log('Kliknuto na "Více tagů"');
+      if (visibleTags) visibleTags.classList.add('hidden');
+      if (allTags) {
+        allTags.classList.remove('hidden');
+        allTags.classList.add('flex');
+      }
+    });
   }
 
-  // Přidáme funkci pro aktualizaci URL
-  function updateURL(tag: string | null) {
+  if (showLessButton) {
+    showLessButton.addEventListener('click', function(this: HTMLButtonElement) {
+      console.log('Kliknuto na "Méně tagů"');
+      if (allTags) {
+        allTags.classList.remove('flex');
+        allTags.classList.add('hidden');
+      }
+      if (visibleTags) visibleTags.classList.remove('hidden');
+    });
+  }
+
+  // Získání tagu z URL
+  function getTagFromURL(): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tag = urlParams.get('tag');
+    console.log('Tag získaný z URL:', tag);
+    return tag;
+  }
+
+  // Aktualizace URL
+  function updateURL(tag: string | null): void {
     const url = new URL(window.location.href);
     if (tag) {
       url.searchParams.set('tag', tag);
     } else {
       url.searchParams.delete('tag');
     }
+    console.log('Aktualizace URL na:', url.toString());
     window.history.pushState({}, '', url);
   }
 
+  // Filtrování článků podle vyhledávání a tagu
   function filterPosts(): void {
-    if (!searchInput || !blogPosts) return;
+    console.log('Spouštím filtrování článků, aktuální tag:', currentTag);
+    
+    if (!blogPosts) {
+      console.error('Element blog-posts nebyl nalezen!');
+      return;
+    }
 
-    const searchTerm = searchInput.value.toLowerCase();
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
     const posts = blogPosts.querySelectorAll('article');
+    let visibleCount = 0;
 
-    posts.forEach((post: Element) => {
+    console.log(`Filtrování ${posts.length} článků podle hledání: "${searchTerm}" a tagu: ${currentTag || 'žádný'}`);
+
+    posts.forEach(function(post: Element) {
       const title = post.querySelector('h2')?.textContent?.toLowerCase() || '';
       const excerpt = post.querySelector('p')?.textContent?.toLowerCase() || '';
-      const tags = Array.from(post.querySelectorAll('.tag'))
-        .map(tag => tag.textContent?.toLowerCase() || '');
+      
+      // DŮLEŽITÁ ZMĚNA: Získání tagů z data-tags atributu článku
+      const dataTags = post.getAttribute('data-tags') || '';
+      const tagsArray = dataTags.toLowerCase().split(',');
+      
+      console.log('Článek:', title, 'má tagy z data-atributu:', dataTags);
 
-      const matchesSearch = title.includes(searchTerm) || excerpt.includes(searchTerm);
-      const matchesTag = !currentTag || tags.includes(currentTag.toLowerCase());
-
-      (post as HTMLElement).style.display = matchesSearch && matchesTag ? 'block' : 'none';
+      const matchesSearch = searchTerm === '' || 
+                           title.includes(searchTerm) || 
+                           excerpt.includes(searchTerm) || 
+                           tagsArray.some(tag => tag.includes(searchTerm));
+      
+      // Kontrola, zda článek obsahuje aktuální tag (pomocí data-tags)
+      const matchesTag = !currentTag || 
+                         tagsArray.includes(currentTag.toLowerCase());
+      
+      const isVisible = matchesSearch && matchesTag;
+      (post as HTMLElement).style.display = isVisible ? 'block' : 'none';
+      
+      if (isVisible) visibleCount++;
     });
+
+    console.log(`Počet viditelných článků po filtrování: ${visibleCount}`);
+
+    // Zpráva, pokud nejsou nalezeny žádné články
+    let noResultsMessage = document.getElementById('no-results-message') as HTMLElement;
+    if (visibleCount === 0) {
+      if (!noResultsMessage) {
+        console.log('Vytváření zprávy o nenalezení článků');
+        noResultsMessage = document.createElement('div');
+        noResultsMessage.id = 'no-results-message';
+        noResultsMessage.className = 'text-center py-8 col-span-full';
+        noResultsMessage.innerHTML = '<p class="text-lg">Nenalezeny žádné články odpovídající vašemu vyhledávání.</p>';
+        blogPosts.appendChild(noResultsMessage);
+      } else {
+        noResultsMessage.style.display = 'block';
+      }
+    } else if (noResultsMessage) {
+      noResultsMessage.style.display = 'none';
+    }
   }
 
-  // Přidáme funkci pro aktivaci tagu
-  function activateTag(tag: string | null) {
+  // Aktivace tagu pro filtrování
+  function activateTag(tag: string | null): void {
+    console.log('Aktivace tagu:', tag);
+    
+    // Nastavení aktuálního tagu
     currentTag = tag;
-    document.querySelectorAll('.tag-filter').forEach((btn: Element) => {
-      const tagBtn = btn as HTMLElement & { dataset: DOMStringMap };
-      if (tagBtn.dataset.tag === currentTag) {
-        btn.classList.add('bg-blue-500', 'text-white');
+    
+    // Aktualizace vizuálního stavu všech tlačítek tagů
+    const tagButtons = document.querySelectorAll('.tag-filter');
+    console.log(`Aktualizuji vzhled ${tagButtons.length} tlačítek tagů`);
+    
+    tagButtons.forEach(function(button: Element) {
+      const buttonTag = button.getAttribute('data-tag');
+      
+      if (buttonTag === currentTag) {
+        // Aktivní tag - změna barvy na modrou
+        button.classList.add('bg-[#173358]', 'text-white');
+        button.classList.remove('bg-[#e7f5fa]', 'text-[#173358]');
+        console.log(`Tlačítko tagu "${buttonTag}" označeno jako aktivní`);
       } else {
-        btn.classList.remove('bg-blue-500', 'text-white');
+        // Neaktivní tag - výchozí barva
+        button.classList.remove('bg-[#173358]', 'text-white');
+        button.classList.add('bg-[#e7f5fa]', 'text-[#173358]');
       }
     });
+    
+    // Filtrování článků podle nového aktivního tagu
     filterPosts();
+    
+    // Aktualizace URL
     updateURL(tag);
   }
 
   // Zpracování URL parametru při načtení stránky
   const urlTag = getTagFromURL();
   if (urlTag) {
+    console.log(`Inicializace s tagem z URL: ${urlTag}`);
     activateTag(urlTag);
   }
 
-  searchInput?.addEventListener('input', filterPosts);
+  // Event listener pro vyhledávací pole
+  if (searchInput) {
+    searchInput.addEventListener('input', function(this: HTMLInputElement) {
+      console.log('Změna v poli vyhledávání:', this.value);
+      filterPosts();
+    });
+  } else {
+    console.error('Element search nebyl nalezen!');
+  }
 
-  document.querySelectorAll('.tag-filter').forEach((button: Element) => {
-    button.addEventListener('click', () => {
-      const tagButton = button as HTMLElement & { dataset: DOMStringMap };
-      const tag = tagButton.dataset.tag;
-      if (!tag) return;
-
-      const newTag = currentTag === tag ? null : tag;
+  // Event listenery pro tlačítka tagů
+  const tagButtons = document.querySelectorAll('.tag-filter');
+  console.log(`Přidávám event listenery pro ${tagButtons.length} tlačítek tagů`);
+  
+  tagButtons.forEach((button: Element) => {
+    button.addEventListener('click', (event: Event) => {
+      event.preventDefault();
+      const clickedTag = (event.currentTarget as HTMLElement).getAttribute('data-tag');
+      console.log(`Kliknuto na tag "${clickedTag}"`);
+      
+      if (!clickedTag) {
+        console.error('Tlačítko tagu nemá atribut data-tag!');
+        return;
+      }
+      
+      // Pokud je již aktivní, deaktivujeme ho; jinak aktivujeme
+      const newTag = currentTag === clickedTag ? null : clickedTag;
       activateTag(newTag);
     });
   });
+
+  // Inicializační filtrování při načtení stránky
+  console.log('Spouštím inicializační filtrování');
+  filterPosts();
 });
 </script>

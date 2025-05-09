@@ -3,13 +3,76 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+
+// SEO metadata pro stránku ochrany osobních údajů
+const pageTitle = "Ochrana osobních údajů (GDPR) - Superior Medical";
+const pageDescription = "Zásady ochrany osobních údajů společnosti Superior Medical. Informace o zpracování údajů, vašich právech a používání cookies při využívání našich služeb v oblasti léčby obezity.";
+const pageKeywords = "ochrana osobních údajů, GDPR, Superior Medical, zpracování údajů, cookies, soukromí, práva subjektů údajů, zdravotnické služby";
+
+// Schema.org strukturovaná data pro stránku s právními informacemi
+const legalInfoSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": pageTitle,
+  "description": pageDescription,
+  "specialty": "Privacy Policy",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Patients and healthcare providers"
+  },
+  "significantLink": {
+    "@type": "AboutPage",
+    "name": "Ochrana osobních údajů",
+    "url": Astro.url.href
+  }
+};
+
+// Breadcrumbs strukturovaná data
+const breadcrumbsSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Domů",
+      "item": new URL("/", Astro.site || "https://superiormedical.netlify.app").toString() //TODO: změnit na správný url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Ochrana osobních údajů",
+      "item": Astro.url.href
+    }
+  ]
+};
+
+// Kombinace všech schémat
+const combinedSchema = [legalInfoSchema, breadcrumbsSchema];
 ---
 
-<Layout title="Ochrana osobních údajů - Superior Medical">
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+>
+  <!-- Strukturovaná data pro stránku s právními informacemi -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(combinedSchema)} />
+  
   <CookieConsent />
   <Header />
+  
   <main class="py-16 text-[#173358]">
+    <!-- Breadcrumbs pro navigaci a SEO -->
     <div class="max-w-4xl mx-auto px-4">
+      <nav aria-label="breadcrumbs" class="text-sm py-2 mb-6">
+        <ol class="flex">
+          <li><a href="/" class="text-[#173358] hover:underline">Domů</a></li>
+          <li class="mx-2">/</li>
+          <li class="font-semibold">Ochrana osobních údajů</li>
+        </ol>
+      </nav>
+      
       <h1 class="text-3xl font-bold mb-8 text-[#173358]">Ochrana osobních údajů (GDPR)</h1>
       
       <div class="prose max-w-none">
@@ -17,255 +80,324 @@ import CookieConsent from '../components/CookieConsent.astro';
           <p class="text-[#173358] font-medium">V Superior Medical respektujeme vaše soukromí a vaše osobní údaje zpracováváme pouze v rozsahu nezbytně nutném pro poskytování našich služeb a v souladu s platnými právními předpisy.</p>
         </div>
 
+        <!-- Obsah zůstává stejný -->
+        <!-- ... -->
+
+        <!-- Přidání FAQ schématu -->
+        <script type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Jaké osobní údaje zpracováváte?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Zpracováváme identifikační údaje (jméno, příjmení), kontaktní údaje (email, telefon, adresa), zdravotní údaje nezbytné pro poskytování služeb, údaje o využívání našich služeb, údaje poskytnuté prostřednictvím kontaktního formuláře na našich webových stránkách a IP adresa a časová značka při odeslání kontaktního formuláře."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Za jakým účelem zpracováváte mé osobní údaje?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Vaše osobní údaje zpracováváme za účelem poskytování zdravotních služeb, vedení zdravotnické dokumentace, plnění zákonných povinností, zasílání informací o službách (na základě souhlasu) a komunikace s vámi a vyřízení vašich dotazů či požadavků zaslaných prostřednictvím kontaktního formuláře."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Jaká jsou moje práva v souvislosti se zpracováním osobních údajů?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "V souvislosti se zpracováním vašich osobních údajů máte právo na přístup k osobním údajům, právo na opravu osobních údajů, právo na výmaz osobních údajů, právo na omezení zpracování, právo na přenositelnost údajů a právo na vznesení námitky."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Jaké cookies používáte na vašem webu?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Naše webové stránky používají pouze nezbytné technické cookies potřebné pro zajištění základních funkcí webu a správné fungování Netlify CMS. Na rozdíl od mnoha jiných webů nepoužíváme žádné cookies pro analytické, marketingové nebo reklamní účely."
+              }
+            }
+          ]
+        })} />
+        
         <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">1. Správce osobních údajů</h2>
-          <p>Společnost <strong>Superior Medical</strong>, se sídlem [Adresa], IČO: [číslo], je správcem Vašich osobních údajů.</p>
+          <h2 class="text-[#173358] text-2xl font-bold mb-4" id="gdpr-spravce">1. Správce osobních údajů</h2>
+          <p>Společnost <strong>Superior Medical</strong>, se sídlem [Adresa], IČO: [číslo], je správcem Vašich osobních údajů.</p> <!--TODO: změnit na správné údaje-->
         </section>
 
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">2. Zpracovávané osobní údaje</h2>
-          <p class="mb-3">Zpracováváme následující kategorie osobních údajů:</p>
-          <ul class="space-y-2">
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Identifikační údaje (jméno, příjmení)</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Kontaktní údaje (email, telefon, adresa)</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Zdravotní údaje nezbytné pro poskytování služeb</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Údaje o využívání našich služeb</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Údaje poskytnuté prostřednictvím kontaktního formuláře na našich webových stránkách</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>IP adresa a časová značka při odeslání kontaktního formuláře</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">3. Účel zpracování</h2>
-          <p class="mb-3">Vaše osobní údaje zpracováváme za účelem:</p>
-          <ul class="space-y-2">
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Poskytování zdravotních služeb</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Vedení zdravotnické dokumentace</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Plnění zákonných povinností</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Zasílání informací o službách (na základě souhlasu)</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Komunikace s vámi a vyřízení vašich dotazů či požadavků zaslaných prostřednictvím kontaktního formuláře</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">4. Doba zpracování</h2>
-          <p class="mb-3">Osobní údaje zpracováváme po dobu:</p>
-          <ul class="space-y-2">
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Poskytování služeb</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Zákonné archivační doby pro zdravotnickou dokumentaci</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Trvání Vašeho souhlasu pro marketingové účely</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Údaje z kontaktního formuláře zpracováváme po dobu nezbytnou pro vyřízení vašeho požadavku; u poskytovatele formulářové služby jsou údaje uchovávány po dobu 30 dnů</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">5. Vaše práva</h2>
-          <p class="mb-3">V souvislosti se zpracováním vašich osobních údajů máte následující práva:</p>
-          <ul class="space-y-2">
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na přístup k osobním údajům</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na opravu osobních údajů</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na výmaz osobních údajů</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na omezení zpracování</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na přenositelnost údajů</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Právo na vznesení námitky</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">6. Zabezpečení údajů</h2>
-          <div class="bg-[#e7f5fa] rounded-md p-4 mb-4">
-            <p>Přijali jsme technická a organizační opatření k zabezpečení Vašich osobních údajů. Pravidelně tato opatření aktualizujeme. V případě využití služeb třetích stran pro zpracování vašich údajů pečlivě vybíráme pouze takové poskytovatele, kteří zajišťují dostatečné záruky ochrany vašich osobních údajů.</p>
-          </div>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">7. Kontakt</h2>
-          <p class="mb-3">V případě dotazů ohledně zpracování osobních údajů nás můžete kontaktovat na:</p>
-          
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div class="p-4 bg-[#e7f5fa] rounded-md">
-              <p class="font-bold text-[#173358] mb-2">Email:</p>
-              <p>info@superiormedical.cz</p>
-            </div>
-            <div class="p-4 bg-[#e7f5fa] rounded-md">
-              <p class="font-bold text-[#173358] mb-2">Telefon:</p>
-              <p>+420 777 888 999</p>
-            </div>
-            <div class="p-4 bg-[#e7f5fa] rounded-md">
-              <p class="font-bold text-[#173358] mb-2">Adresa:</p>
-              <p>[adresa]</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">8. Cookies a webové technologie</h2>
-          <p class="mb-4">Naše webové stránky používají pouze nezbytné technické cookies potřebné pro zajištění základních funkcí webu a správné fungování Netlify CMS. Na rozdíl od mnoha jiných webů <strong>nepoužíváme žádné cookies pro analytické, marketingové nebo reklamní účely</strong>.</p>
-
-          <div class="mt-6 mb-6">
-            <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.1 Co jsou cookies?</h3>
-            <p>Cookies jsou malé textové soubory, které se ukládají do vašeho prohlížeče nebo zařízení při návštěvě webových stránek. Tyto soubory umožňují webovým stránkám zapamatovat si vaše akce a preference po určitou dobu.</p>
-          </div>
-
-          <div class="mt-6 mb-6">
-            <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.2 Jaké cookies používáme</h3>
-            <p class="mb-4">Na našich stránkách používáme pouze následující typy cookies:</p>
-
-            <table class="min-w-full border-collapse mb-6">
-              <thead>
-                <tr>
-                  <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Název</th>
-                  <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Účel</th>
-                  <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Doba trvání</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="border border-gray-300 px-4 py-2">netlify-cms</td>
-                  <td class="border border-gray-300 px-4 py-2">Nezbytná technická cookie pro správné fungování administračního rozhraní Netlify CMS</td>
-                  <td class="border border-gray-300 px-4 py-2">Po dobu relace</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-300 px-4 py-2">cookie-consent-accepted</td>
-                  <td class="border border-gray-300 px-4 py-2">Ukládá informaci o tom, že jste viděli a přijali oznámení o cookies</td>
-                  <td class="border border-gray-300 px-4 py-2">1 rok</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="mt-6 mb-6">
-            <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.3 Správa cookies</h3>
-            <p class="mb-3">Většina webových prohlížečů umožňuje spravovat cookies prostřednictvím nastavení prohlížeče. Můžete:</p>
-            <ul class="space-y-2 mb-4">
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">2. Zpracovávané osobní údaje</h2>
+            <p class="mb-3">Zpracováváme následující kategorie osobních údajů:</p>
+            <ul class="space-y-2">
               <li class="flex items-start">
                 <span class="text-[#50a6d3] mr-2">•</span>
-                <span>Zobrazit cookies uložené ve vašem prohlížeči</span>
+                <span>Identifikační údaje (jméno, příjmení)</span>
               </li>
               <li class="flex items-start">
                 <span class="text-[#50a6d3] mr-2">•</span>
-                <span>Odstranit jednotlivé cookies nebo všechny cookies</span>
+                <span>Kontaktní údaje (email, telefon, adresa)</span>
               </li>
               <li class="flex items-start">
                 <span class="text-[#50a6d3] mr-2">•</span>
-                <span>Blokovat cookies třetích stran nebo všechny cookies</span>
+                <span>Zdravotní údaje nezbytné pro poskytování služeb</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Údaje o využívání našich služeb</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Údaje poskytnuté prostřednictvím kontaktního formuláře na našich webových stránkách</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>IP adresa a časová značka při odeslání kontaktního formuláře</span>
+              </li>
+            </ul>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">3. Účel zpracování</h2>
+            <p class="mb-3">Vaše osobní údaje zpracováváme za účelem:</p>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Poskytování zdravotních služeb</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Vedení zdravotnické dokumentace</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Plnění zákonných povinností</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Zasílání informací o službách (na základě souhlasu)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Komunikace s vámi a vyřízení vašich dotazů či požadavků zaslaných prostřednictvím kontaktního formuláře</span>
+              </li>
+            </ul>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">4. Doba zpracování</h2>
+            <p class="mb-3">Osobní údaje zpracováváme po dobu:</p>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Poskytování služeb</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Zákonné archivační doby pro zdravotnickou dokumentaci</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Trvání Vašeho souhlasu pro marketingové účely</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Údaje z kontaktního formuláře zpracováváme po dobu nezbytnou pro vyřízení vašeho požadavku; u poskytovatele formulářové služby jsou údaje uchovávány po dobu 30 dnů</span>
+              </li>
+            </ul>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">5. Vaše práva</h2>
+            <p class="mb-3">V souvislosti se zpracováním vašich osobních údajů máte následující práva:</p>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na přístup k osobním údajům</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na opravu osobních údajů</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na výmaz osobních údajů</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na omezení zpracování</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na přenositelnost údajů</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Právo na vznesení námitky</span>
+              </li>
+            </ul>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">6. Zabezpečení údajů</h2>
+            <div class="bg-[#e7f5fa] rounded-md p-4 mb-4">
+              <p>Přijali jsme technická a organizační opatření k zabezpečení Vašich osobních údajů. Pravidelně tato opatření aktualizujeme. V případě využití služeb třetích stran pro zpracování vašich údajů pečlivě vybíráme pouze takové poskytovatele, kteří zajišťují dostatečné záruky ochrany vašich osobních údajů.</p>
+            </div>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">7. Kontakt</h2>
+            <p class="mb-3">V případě dotazů ohledně zpracování osobních údajů nás můžete kontaktovat na:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div class="p-4 bg-[#e7f5fa] rounded-md">
+                <p class="font-bold text-[#173358] mb-2">Email:</p>
+                <p>info@superiormedical.cz</p>
+              </div>
+              <div class="p-4 bg-[#e7f5fa] rounded-md">
+                <p class="font-bold text-[#173358] mb-2">Telefon:</p>
+                <p>+420 777 888 999</p>
+              </div>
+              <div class="p-4 bg-[#e7f5fa] rounded-md">
+                <p class="font-bold text-[#173358] mb-2">Adresa:</p> 
+                <p>[adresa]</p> <!--TODO: změnit na správnou adresu-->
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">8. Cookies a webové technologie</h2>
+            <p class="mb-4">Naše webové stránky používají pouze nezbytné technické cookies potřebné pro zajištění základních funkcí webu a správné fungování Netlify CMS. Na rozdíl od mnoha jiných webů <strong>nepoužíváme žádné cookies pro analytické, marketingové nebo reklamní účely</strong>.</p>
+
+            <div class="mt-6 mb-6">
+              <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.1 Co jsou cookies?</h3>
+              <p>Cookies jsou malé textové soubory, které se ukládají do vašeho prohlížeče nebo zařízení při návštěvě webových stránek. Tyto soubory umožňují webovým stránkám zapamatovat si vaše akce a preference po určitou dobu.</p>
+            </div>
+
+            <div class="mt-6 mb-6">
+              <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.2 Jaké cookies používáme</h3>
+              <p class="mb-4">Na našich stránkách používáme pouze následující typy cookies:</p>
+
+              <table class="min-w-full border-collapse mb-6">
+                <thead>
+                  <tr>
+                    <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Název</th>
+                    <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Účel</th>
+                    <th class="border border-gray-300 px-4 py-2 bg-[#e7f5fa] text-[#173358]">Doba trvání</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-gray-300 px-4 py-2">netlify-cms</td>
+                    <td class="border border-gray-300 px-4 py-2">Nezbytná technická cookie pro správné fungování administračního rozhraní Netlify CMS</td>
+                    <td class="border border-gray-300 px-4 py-2">Po dobu relace</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300 px-4 py-2">cookie-consent-accepted</td>
+                    <td class="border border-gray-300 px-4 py-2">Ukládá informaci o tom, že jste viděli a přijali oznámení o cookies</td>
+                    <td class="border border-gray-300 px-4 py-2">1 rok</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mt-6 mb-6">
+              <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.3 Správa cookies</h3>
+              <p class="mb-3">Většina webových prohlížečů umožňuje spravovat cookies prostřednictvím nastavení prohlížeče. Můžete:</p>
+              <ul class="space-y-2 mb-4">
+                <li class="flex items-start">
+                  <span class="text-[#50a6d3] mr-2">•</span>
+                  <span>Zobrazit cookies uložené ve vašem prohlížeči</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-[#50a6d3] mr-2">•</span>
+                  <span>Odstranit jednotlivé cookies nebo všechny cookies</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-[#50a6d3] mr-2">•</span>
+                  <span>Blokovat cookies třetích stran nebo všechny cookies</span>
+                </li>
+              </ul>
+
+              <p class="bg-[#e7f5fa] p-4 rounded-md">Upozorňujeme, že odmítnutí nebo odstranění nezbytných technických cookies může mít vliv na funkčnost našeho webu, zejména na administrační části využívající Netlify CMS.</p>
+            </div>
+
+            <div class="mt-6">
+              <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.4 Další informace o cookies</h3>
+              <p>Podrobnější informace o cookies a o tom, jak je spravovat, můžete najít na stránkách <a href="https://www.allaboutcookies.org/" target="_blank" rel="noopener noreferrer" class="text-[#50a6d3] hover:underline">www.allaboutcookies.org</a> nebo <a href="https://www.aboutcookies.org/" target="_blank" rel="noopener noreferrer" class="text-[#50a6d3] hover:underline">www.aboutcookies.org</a>.</p>
+            </div>
+          </section>
+
+          <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-[#173358] text-2xl font-bold mb-4">9. Zpracování údajů třetími stranami</h2>
+            <div class="border-l-4 border-[#50a6d3] pl-4 py-2 mb-6 bg-[#e7f5fa] rounded-r-md">
+              <p class="font-medium text-[#173358]">Důležitá informace o zpracování údajů z kontaktního formuláře</p>
+            </div>
+            
+            <p class="mb-4">Pro zajištění funkčnosti kontaktního formuláře na našich webových stránkách využíváme služby třetí strany. V souvislosti s tímto zpracováním vás informujeme, že:</p>
+
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Údaje odeslané prostřednictvím kontaktního formuláře jsou dočasně uloženy u poskytovatele formulářové služby</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Tyto údaje jsou poskytovatelem uchovávány po dobu 30 dnů od odeslání</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Poskytovatel služby neuchovává nahrané soubory (pokud byly součástí formuláře)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>K archivovaným údajům v systému poskytovatele má přístup pouze oprávněná osoba naší společnosti prostřednictvím API, s omezeným počtem přístupů (5× denně)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-[#50a6d3] mr-2">•</span>
+                <span>Tento postup je nezbytný pro zajištění spolehlivého doručení vašich zpráv i v případě technických problémů</span>
               </li>
             </ul>
 
-            <p class="bg-[#e7f5fa] p-4 rounded-md">Upozorňujeme, že odmítnutí nebo odstranění nezbytných technických cookies může mít vliv na funkčnost našeho webu, zejména na administrační části využívající Netlify CMS.</p>
-          </div>
-
-          <div class="mt-6">
-            <h3 class="text-[#50a6d3] text-xl font-bold mb-3">8.4 Další informace o cookies</h3>
-            <p>Podrobnější informace o cookies a o tom, jak je spravovat, můžete najít na stránkách <a href="https://www.allaboutcookies.org/" target="_blank" rel="noopener noreferrer" class="text-[#50a6d3] hover:underline">www.allaboutcookies.org</a> nebo <a href="https://www.aboutcookies.org/" target="_blank" rel="noopener noreferrer" class="text-[#50a6d3] hover:underline">www.aboutcookies.org</a>.</p>
-          </div>
-        </section>
-
-        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-          <h2 class="text-[#173358] text-2xl font-bold mb-4">9. Zpracování údajů třetími stranami</h2>
-          <div class="border-l-4 border-[#50a6d3] pl-4 py-2 mb-6 bg-[#e7f5fa] rounded-r-md">
-            <p class="font-medium text-[#173358]">Důležitá informace o zpracování údajů z kontaktního formuláře</p>
-          </div>
+            <div class="bg-[#e7f5fa] p-4 rounded-md mt-4">
+              <p>Ujišťujeme vás, že poskytovatel této služby je vázán přísnými bezpečnostními standardy a přijal odpovídající technická a organizační opatření k ochraně vašich údajů. Máte-li jakékoli obavy ohledně zpracování vašich osobních údajů při odesílání formuláře, můžete nás kontaktovat přímo pomocí e-mailu nebo telefonu uvedeného v sekci "7. Kontakt".</p>
+            </div>
+          </section>
           
-          <p class="mb-4">Pro zajištění funkčnosti kontaktního formuláře na našich webových stránkách využíváme služby třetí strany. V souvislosti s tímto zpracováním vás informujeme, že:</p>
-
-          <ul class="space-y-2 mb-6">
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Údaje odeslané prostřednictvím kontaktního formuláře jsou dočasně uloženy u poskytovatele formulářové služby</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Tyto údaje jsou poskytovatelem uchovávány po dobu 30 dnů od odeslání</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Poskytovatel služby neuchovává nahrané soubory (pokud byly součástí formuláře)</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>K archivovaným údajům v systému poskytovatele má přístup pouze oprávněná osoba naší společnosti prostřednictvím API, s omezeným počtem přístupů (5× denně)</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[#50a6d3] mr-2">•</span>
-              <span>Tento postup je nezbytný pro zajištění spolehlivého doručení vašich zpráv i v případě technických problémů</span>
-            </li>
-          </ul>
-
-          <div class="bg-[#e7f5fa] p-4 rounded-md mt-4">
-            <p>Ujišťujeme vás, že poskytovatel této služby je vázán přísnými bezpečnostními standardy a přijal odpovídající technická a organizační opatření k ochraně vašich údajů. Máte-li jakékoli obavy ohledně zpracování vašich osobních údajů při odesílání formuláře, můžete nás kontaktovat přímo pomocí e-mailu nebo telefonu uvedeného v sekci "7. Kontakt".</p>
+          <div class="mt-12 pt-6 border border-[#173358] text-center bg-white p-6 rounded-lg shadow-sm">
+            <p class="text-[#173358] text-sm mb-2">Tyto zásady ochrany osobních údajů jsou platné a účinné od roku 2025.</p>
+            <p class="text-[#173358] text-sm">© Superior Medical. Všechna práva vyhrazena.</p>
           </div>
-        </section>
-        
-        <div class="mt-12 pt-6 border border-[#173358] text-center bg-white p-6 rounded-lg shadow-sm">
-          <p class="text-[#173358] text-sm mb-2">Tyto zásady ochrany osobních údajů jsou platné a účinné od roku 2025.</p>
-          <p class="text-[#173358] text-sm">© Superior Medical. Všechna práva vyhrazena.</p>
         </div>
       </div>
-    </div>
-  </main>
-  <Footer />
-</Layout>
+    </main>
+    <Footer />
+  </Layout>
+  
+  <!-- Přidání struktury obsahu pro lepší SEO -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Přidání ID ke všem nadpisům pro lepší přístupnost a možnost odkazování
+    const headings = document.querySelectorAll('h2');
+    headings.forEach((heading, index) => {
+      if (!heading.id) {
+        heading.id = `section-${index + 1}`;
+      }
+      
+      // Přidání mikrodat pro lepší SEO
+      heading.setAttribute('itemprop', 'headline');
+    });
+    
+    // Přidání značkování mikrodat pro lepší SEO
+    document.querySelector('main')?.setAttribute('itemscope', '');
+    document.querySelector('main')?.setAttribute('itemtype', 'https://schema.org/WebPage');
+    
+    // Přidání mikrodat pro obsah
+    const contentSections = document.querySelectorAll('section');
+    contentSections.forEach((section) => {
+      section.setAttribute('itemprop', 'mainContentOfPage');
+    });
+  });
+  </script>

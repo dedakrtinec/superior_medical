@@ -5,7 +5,11 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://superiormedical.netlify.app/', //TODO: změnit na správný url
-  integrations: [tailwind(), sitemap()],
+  integrations: [tailwind(), sitemap({
+    changefreq: 'weekly',
+    priority: 0.7,
+    lastmod: new Date(),
+  }),],
   content: {
     collections: {
       blog: {

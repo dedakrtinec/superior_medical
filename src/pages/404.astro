@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+
+const pageTitle = "Stránka nenalezena (404) | Superior Medical";
+const pageDescription = "Omlouváme se, ale požadovaná stránka nebyla nalezena. Vraťte se na hlavní stránku Superior Medical.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <CookieConsent />
+  <Header />
+  <main class="py-16 text-[#173358]">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-3xl font-bold mb-8 text-[#173358]">Stránka nenalezena (404)</h1>
+      
+      <div class="prose max-w-none">
+        <div class="bg-[#e7f5fa] border-l-4 border-[#50a6d3] p-4 rounded-r-md mb-8">
+          <p class="text-[#173358] font-medium">Omlouváme se, ale stránka, kterou hledáte, neexistuje nebo byla přesunuta.</p>
+        </div>
+
+        <section class="mb-12 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+          <h2 class="text-[#173358] text-2xl font-bold mb-4">Co dělat dále?</h2>
+          <p class="mb-6">Zkuste některou z následujících možností:</p>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <span class="text-[#50a6d3] mr-2">•</span>
+              <span>Vraťte se na <a href="/" class="text-[#50a6d3] hover:underline">hlavní stránku</a></span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-[#50a6d3] mr-2">•</span>
+              <span>Přejděte na <a href="/blog" class="text-[#50a6d3] hover:underline">sekci blogu</a></span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-[#50a6d3] mr-2">•</span>
+              <span>Pokud si myslíte, že by odkaz měl fungovat, <a href="mailto:info@superiormedical.cz" class="text-[#50a6d3] hover:underline">kontaktujte nás</a></span>
+            </li>
+          </ul>
+        </section>
+      </div>
+      
+      <div class="mt-8">
+        <a 
+          href="/" 
+          class="inline-flex items-center text-[#173358] hover:text-[#50a6d3]"
+        >
+          <svg
+            class="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Zpět na hlavní stránku
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
