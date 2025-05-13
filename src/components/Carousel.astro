@@ -1,9 +1,9 @@
 ---
-// src/components/Carousel.astro
-import '/src/components/CarouselStyles.css'; // Importujte CSS soubor přímo v komponentě
+import '/src/components/CarouselStyles.css';
 
 interface CarouselSlide {
   src: string;
+  mobileSrc?: string;
   alt: string;
   html?: string;
 }
@@ -22,7 +22,12 @@ const { slides, id = "carousel" } = Astro.props;
       {slides.map((slide) => (
         <div class="swiper-slide">
           <div class="image-wrapper">
-            <img src={slide.src} alt={slide.alt} />
+            <picture>
+              {slide.mobileSrc && (
+                <source media="(max-width: 768px)" srcset={slide.mobileSrc} />
+              )}
+              <img src={slide.src} alt={slide.alt} />
+            </picture>
             {slide.html && <Fragment set:html={slide.html} />}
           </div>
         </div>

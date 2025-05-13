@@ -11,13 +11,12 @@ import Products from '../components/Products.astro';
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-// Získání blogových příspěvků pro BlogPreview
 const allPosts = await getCollection('blog');
 
-// Definice slideů pro carousel
 const carouselSlides = [
   {
     src: "/images/banner-1.webp",
+    mobileSrc: "/images/sm-banner-1-compressed.webp",
     alt: "Intragastrické balóny Spatz pro moderní léčbu obezity",
     html: `
      <div class="carousel-text-container">
@@ -32,6 +31,7 @@ const carouselSlides = [
   },
   {
     src: "/images/banner-2.webp",
+    mobileSrc: "/images/sm-banner-2-compressed.webp",
     alt: "Špičkové zdravotnické pomůcky pro obezitologii a gastroenterologii",
     html: `
      <div class="carousel-text-container">
@@ -46,6 +46,7 @@ const carouselSlides = [
   },
   {
     src: "/images/banner-3.webp",
+    mobileSrc: "/images/sm-banner-3-compressed.webp",
     alt: "Neinvazivní řešení pro léčbu nadváhy a obezity - Intragastrické balóny Spatz",
     html: `
      <div class="carousel-text-container">
@@ -60,7 +61,6 @@ const carouselSlides = [
   }
 ];
 
-// SEO metadata pro hlavní stránku - optimalizováno na základě skutečného obsahu
 const pageTitle = "Superior Medical - Intragastrické balóny Spatz pro léčbu obezity";
 const pageDescription = "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii. Specializujeme se na intragastrické balóny Spatz s nastavitelným objemem a 12-měsíční účinností.";
 const pageImage = "/images/banner-3.webp"; //TODO: změnit na správný image
@@ -104,7 +104,6 @@ const faqData = {
   ]
 };
 
-// Schema.org strukturovaná data pro celou stránku s přesnými informacemi
 const mainPageSchema = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
@@ -136,7 +135,6 @@ const mainPageSchema = {
   }
 };
 
-// Organizační schema pro lepší lokální SEO
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -153,7 +151,6 @@ const organizationSchema = {
   },
 };
 
-// Sloučení všech struktur do jednoho JSON-LD bloku
 const combinedSchema = [mainPageSchema, organizationSchema, faqData];
 ---
 
@@ -162,7 +159,6 @@ const combinedSchema = [mainPageSchema, organizationSchema, faqData];
   description={pageDescription}
   image={pageImage}
 >
-  <!-- Kombinovaná strukturovaná data -->
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(combinedSchema)} />
   
   <Header />
