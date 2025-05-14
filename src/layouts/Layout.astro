@@ -1,164 +1,187 @@
-  ---
-  import { SEO } from "astro-seo";
-  interface Props {
-    title: string;
-    description?: string;
-    image?: string;
-    canonicalUrl?: string;
-    keywords?: string;
+---
+import { SEO } from "astro-seo";
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  keywords?: string;
+}
+
+const { 
+  title,
+  description = "Superior Medical - Špičkové zdravotnické pomůcky a intragastrické balóny Spatz pro léčbu obezity",
+  image = "/images/banner1.jpg", //TODO: změnit na správný image
+  canonicalUrl = Astro.url.href,
+  keywords = "intragastrické balóny, Spatz, léčba obezity, hubnutí, gastroenterologie, obezitologie, zdravotnické pomůcky"
+} = Astro.props;
+
+const siteUrl = Astro.site || "https://superiormedical.netlify.app"; //TODO: změnit na správný url
+const ogImageUrl = new URL(image, siteUrl).toString();
+
+// JSON-LD schéma pro organizaci - vylepšené
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Superior Medical",
+  "url": siteUrl,
+  "logo": new URL("/images/favicon.svg", siteUrl).toString(),
+  "description": "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii, specializující se na intragastrické balóny Spatz.",
+  "foundingDate": "2023",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+420792317508",
+    "contactType": "customer service",
+    "email": "info@superiormedical.cz",
+    "availableLanguage": ["Czech", "English"] // Jazyky, ve kterých poskytujete podporu
   }
+};
 
-  const { 
-    title,
-    description = "Superior Medical - Špičkové zdravotnické pomůcky a intragastrické balóny Spatz pro léčbu obezity",
-    image = "/images/banner1.jpg", //TODO: změnit na správný image
-    canonicalUrl = Astro.url.href,
-    keywords = "intragastrické balóny, Spatz, léčba obezity, hubnutí, gastroenterologie, obezitologie, zdravotnické pomůcky"
-  } = Astro.props;
+// Detekce, zda jsme na domovské stránce (pro preload banneru)
+const isHomepage = Astro.url.pathname === '/' || Astro.url.pathname === '';
+---
 
-  const siteUrl = Astro.site || "https://superiormedical.netlify.app"; //TODO: změnit na správný url
-  const ogImageUrl = new URL(image, siteUrl).toString();
-
-  // JSON-LD schéma pro organizaci - vylepšené
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Superior Medical",
-    "url": siteUrl,
-    "logo": new URL("/images/favicon.svg", siteUrl).toString(),
-    "description": "Distributor špičkových zdravotnických pomůcek pro obezitologii a gastroenterologii, specializující se na intragastrické balóny Spatz.",
-    "foundingDate": "2023",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+420792317508",
-      "contactType": "customer service",
-      "email": "info@superiormedical.cz",
-      "availableLanguage": ["Czech", "English"] // Jazyky, ve kterých poskytujete podporu
-    }
-  };
-  ---
-
-  <!DOCTYPE html>
-  <html lang="cs">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-      <link rel="preconnect" href="https://identity.netlify.com" />
-      <link rel="dns-prefetch" href="https://identity.netlify.com" />
-      <link rel="preload" href="/images/favicon.svg" as="image" type="image/svg+xml" />
-      
-      <SEO
-        title={title}
-        titleTemplate="%s | Superior Medical" 
-        description={description}
-        canonical={canonicalUrl}
-        openGraph={{
-          basic: {
-            title: title,
-            type: "website",
-            image: ogImageUrl,
-            url: canonicalUrl,
-          },
-          optional: {
-            siteName: "Superior Medical",
-            description: description,
-            locale: "cs_CZ",
-          },
-          article: {
-            tags: keywords.split(", ")
-          }
-        }}
-        extend={{
-          link: [
-            { rel: "icon", type: "image/svg+xml", href: "/images/favicon.svg" },
-            { rel: "sitemap", href: "/sitemap-index.xml" },
-            { rel: "preload", href: "/fonts/reddit-sans/RedditSans-VariableFont_wght.ttf", as: "font", type: "font/ttf", crossorigin: "anonymous" },
-          ],
-          meta: [
-            { name: "author", content: "Superior Medical" },
-            { name: "keywords", content: keywords },
-            { property: "og:locale", content: "cs_CZ" },
-            { name: "theme-color", content: "#173358" },
-            { name: "format-detection", content: "telephone=no" },
-            { name: "robots", content: "index, follow, max-image-preview:large" },
-            { name: "geo.region", content: "CZ" },
-            { name: "geo.placename", content: "Česká republika" },
-            { name: "mobile-web-app-capable", content: "yes" }, // Pro PWA
-            { name: "apple-mobile-web-app-capable", content: "yes" }, // Pro iOS
-            { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
-          ],
-        }}
-      />
-      
-      <!-- JSON-LD schema pro lepší SEO -->
-      <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-      
-      <!-- Slot pro další skripty v hlavičce -->
-      <slot name="head" />
-      
-      <script is:inline defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    </head>
-    <body>
-      <slot />
-      <script is:inline>
-        // Jednodušší verze bez TypeScript deklarací
-        document.addEventListener('DOMContentLoaded', () => {
-          if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", (user) => {
-              if (!user) {
-                window.netlifyIdentity.on("login", () => {
-                  document.location.href = "/admin/";
-                });
-              }
-            });
-          }
-        });
-      </script>
-    </body>
-  </html>
-  <style is:global>
-    /* Zde můžete přidat globální styly */
-    /* Deklarace variabilního fontu Reddit Sans */
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <link rel="preconnect" href="https://identity.netlify.com" />
+    <link rel="dns-prefetch" href="https://identity.netlify.com" />
+    <link rel="preload" href="/fonts/reddit-sans/RedditSans-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/images/favicon.svg" as="image" type="image/svg+xml" />
+    
+    {/* Preload pro první banner pouze na domovské stránce */}
+    {isHomepage && (
+      <>
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/images/sm-banner-1-compressed.webp" 
+          media="(max-width: 768px)" 
+          fetchpriority="high"
+        />
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/images/banner-1.webp" 
+          media="(min-width: 769px)" 
+          fetchpriority="high"
+        />
+      </>
+    )}
+    
+    <SEO
+      title={title}
+      titleTemplate="%s | Superior Medical" 
+      description={description}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: ogImageUrl,
+          url: canonicalUrl,
+        },
+        optional: {
+          siteName: "Superior Medical",
+          description: description,
+          locale: "cs_CZ",
+        },
+        article: {
+          tags: keywords.split(", ")
+        }
+      }}
+      extend={{
+        link: [
+          { rel: "icon", type: "image/svg+xml", href: "/images/favicon.svg" },
+          { rel: "sitemap", href: "/sitemap-index.xml" },
+        ],
+        meta: [
+          { name: "author", content: "Superior Medical" },
+          { name: "keywords", content: keywords },
+          { property: "og:locale", content: "cs_CZ" },
+          { name: "theme-color", content: "#173358" },
+          { name: "format-detection", content: "telephone=no" },
+          { name: "robots", content: "index, follow, max-image-preview:large" },
+          { name: "geo.region", content: "CZ" },
+          { name: "geo.placename", content: "Česká republika" },
+          { name: "mobile-web-app-capable", content: "yes" }, // Pro PWA
+          { name: "apple-mobile-web-app-capable", content: "yes" }, // Pro iOS
+          { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
+        ],
+      }}
+    />
+    
+    <!-- JSON-LD schema pro lepší SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    
+    <!-- Slot pro další skripty v hlavičce -->
+    <slot name="head" />
+    
+    <script is:inline defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      // Jednodušší verze bez TypeScript deklarací
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on("init", (user) => {
+            if (!user) {
+              window.netlifyIdentity.on("login", () => {
+                document.location.href = "/admin/";
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
+<style is:global>
+  /* Zde můžete přidat globální styly */
+  /* Deklarace variabilního fontu Reddit Sans */
+  @font-face {
+    font-family: 'Reddit Sans';
+    src: url('/fonts/reddit-sans/RedditSans-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 200 900; /* Rozsah vah od ExtraLight do Black */
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Reddit Sans';
+    src: url('/fonts/reddit-sans/RedditSans-Italic-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 200 900; /* Rozsah vah od ExtraLight do Black */
+    font-style: italic;
+    font-display: swap;
+  }
+  /* Fallback pro prohlížeče, které nepodporují variabilní fonty */
+  @supports not (font-variation-settings: normal) {
     @font-face {
       font-family: 'Reddit Sans';
-      src: url('/fonts/reddit-sans/RedditSans-VariableFont_wght.ttf') format('truetype-variations');
-      font-weight: 200 900; /* Rozsah vah od ExtraLight do Black */
+      src: url('/fonts/reddit-sans/static/RedditSans-Regular.ttf') format('truetype');
+      font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'Reddit Sans';
-      src: url('/fonts/reddit-sans/RedditSans-Italic-VariableFont_wght.ttf') format('truetype-variations');
-      font-weight: 200 900; /* Rozsah vah od ExtraLight do Black */
+      src: url('/fonts/reddit-sans/static/RedditSans-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Reddit Sans';
+      src: url('/fonts/reddit-sans/static/RedditSans-Italic.ttf') format('truetype');
+      font-weight: 400;
       font-style: italic;
       font-display: swap;
     }
-    /* Fallback pro prohlížeče, které nepodporují variabilní fonty */
-    @supports not (font-variation-settings: normal) {
-      @font-face {
-        font-family: 'Reddit Sans';
-        src: url('/fonts/reddit-sans/static/RedditSans-Regular.ttf') format('truetype');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Reddit Sans';
-        src: url('/fonts/reddit-sans/static/RedditSans-Bold.ttf') format('truetype');
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Reddit Sans';
-        src: url('/fonts/reddit-sans/static/RedditSans-Italic.ttf') format('truetype');
-        font-weight: 400;
-        font-style: italic;
-        font-display: swap;
-      }
-      /* Přidejte další statické varianty podle potřeby */
-    }
-    html, body {
-      font-family: 'Reddit Sans', sans-serif;
-    }
-  </style>
+    /* Přidejte další statické varianty podle potřeby */
+  }
+  html, body {
+    font-family: 'Reddit Sans', sans-serif;
+  }
+</style>

@@ -1,48 +1,24 @@
 ---
-import '/src/components/CarouselStyles.css';
-
+// src/components/Carousel.astro
+import '/src/components/CarouselStyles.css'; // Importujte CSS soubor přímo v komponentě
 interface CarouselSlide {
   src: string;
-  mobileSrc?: string;
   alt: string;
   html?: string;
-  width?: number;
-  height?: number;
-  mobileWidth?: number;
-  mobileHeight?: number;
 }
-
 interface Props {
   slides: CarouselSlide[];
   id?: string;
 }
-
 const { slides, id = "carousel" } = Astro.props;
 ---
-
 <div class="carousel-container" id={id}>
   <div class="swiper">
     <div class="swiper-wrapper">
       {slides.map((slide) => (
         <div class="swiper-slide">
           <div class="image-wrapper">
-            <picture>
-              {slide.mobileSrc && (
-                <source 
-                  media="(max-width: 768px)" 
-                  srcset={slide.mobileSrc} 
-                  width={768}
-                  height={500}
-                />
-              )}
-              <img 
-                src={slide.src} 
-                alt={slide.alt} 
-                width={1920}
-                height={800}
-                loading="eager"
-              />
-            </picture>
+            <img src={slide.src} alt={slide.alt} />
             {slide.html && <Fragment set:html={slide.html} />}
           </div>
         </div>
@@ -53,7 +29,6 @@ const { slides, id = "carousel" } = Astro.props;
     <div class="swiper-button-next"></div>
   </div>
 </div>
-
 <style>
   .carousel-container {
     width: 100vw;
@@ -92,14 +67,13 @@ const { slides, id = "carousel" } = Astro.props;
     }
   }
 </style>
-
 <script>
   import Swiper from 'swiper';
   import { Navigation, Pagination, Autoplay } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
-
+  
   function initSwiper() {
     const swiper = new Swiper('.swiper', {
       modules: [Navigation, Pagination, Autoplay],
@@ -120,7 +94,7 @@ const { slides, id = "carousel" } = Astro.props;
       },
     });
   }
-
+  
   document.addEventListener('DOMContentLoaded', initSwiper);
   document.addEventListener('astro:page-load', initSwiper);
 </script>
