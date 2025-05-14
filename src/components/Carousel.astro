@@ -31,15 +31,15 @@ const { slides, id = "carousel" } = Astro.props;
                 <source 
                   media="(max-width: 768px)" 
                   srcset={slide.mobileSrc} 
-                  width={slide.mobileWidth}
-                  height={slide.mobileHeight}
+                  width={768}
+                  height={500}
                 />
               )}
               <img 
                 src={slide.src} 
                 alt={slide.alt} 
-                width={slide.width}
-                height={slide.height}
+                width={1920}
+                height={800}
                 loading="eager"
               />
             </picture>
