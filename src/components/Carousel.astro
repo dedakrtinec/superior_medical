@@ -6,6 +6,10 @@ interface CarouselSlide {
   mobileSrc?: string;
   alt: string;
   html?: string;
+  width?: number;
+  height?: number;
+  mobileWidth?: number;
+  mobileHeight?: number;
 }
 
 interface Props {
@@ -24,9 +28,20 @@ const { slides, id = "carousel" } = Astro.props;
           <div class="image-wrapper">
             <picture>
               {slide.mobileSrc && (
-                <source media="(max-width: 768px)" srcset={slide.mobileSrc} />
+                <source 
+                  media="(max-width: 768px)" 
+                  srcset={slide.mobileSrc} 
+                  width={slide.mobileWidth}
+                  height={slide.mobileHeight}
+                />
               )}
-              <img src={slide.src} alt={slide.alt} />
+              <img 
+                src={slide.src} 
+                alt={slide.alt} 
+                width={slide.width}
+                height={slide.height}
+                loading="eager"
+              />
             </picture>
             {slide.html && <Fragment set:html={slide.html} />}
           </div>
