@@ -3,7 +3,7 @@
 /* Základní konstanty pro škálování - stačí upravit tyto hodnoty pro změnu celého designu */
 :root {
     /* Základní velikosti */
-    --base-font-size: 20px;            /* Základní velikost fontu */
+    --base-font-size: 18px;            /* Základní velikost fontu */
     --base-spacing: 8px;               /* Základní velikost mezer */
     --base-line-height: 1.2;           /* Základní výška řádku */
     
@@ -57,7 +57,7 @@
   /* Základní styly pro carousel text container */
   .carousel-text-container {
     position: absolute;
-    bottom: 18%;
+    bottom: 10%;
     left: 9.1%;
     color: white;
     max-width: 80%;
@@ -68,6 +68,11 @@
     margin: 0;
     font-weight: bold;
     font-size: clamp(calc(var(--base-font-size) * var(--scale-lg)), 6vw, calc(var(--base-font-size) * 5.8));
+  }
+
+  .carousel-subheading-container {
+    margin: 0;
+    line-height: 0.5;
   }
   
   .carousel-heading:last-of-type {
@@ -95,15 +100,15 @@
   /* 1. Velmi malá mobilní zařízení - do 320px (iPhone SE) */
   @media (max-width: 320px) {
     .carousel-heading {
-      font-size: calc(var(--base-font-size) * 0.9) !important; /* 17.6px */
+      font-size: calc(var(--base-font-size) * 0.8) !important; /* 17.6px */
     }
     .carousel-subheading {
-      font-size: calc(var(--base-font-size) * 0.7) !important; /* 14.4px */
+      font-size: calc(var(--base-font-size) * 0.6) !important; /* 14.4px */
     }
     .carousel-hr {
       margin: var(--spacing-xs) 0 var(--spacing-xs) 0 !important;
       border-top-width: var(--hr-thickness-xs) !important;
-      width: calc(var(--hr-width-xs) * 0.8) !important; /* 57.6px */
+      width: calc(var(--hr-width-xs) * 0.7) !important; /* 57.6px */
     }
     .carousel-text-container {
       bottom: 10% !important;
@@ -135,10 +140,10 @@
   /* 3. Mobilní zařízení - 376px až 428px (iPhone 12 Pro Max) */
   @media (min-width: 376px) and (max-width: 428px) {
     .carousel-heading {
-      font-size: calc(var(--base-font-size) * 1.2) !important; /* 20.8px */
+      font-size: calc(var(--base-font-size) * 1.1) !important; /* 20.8px */
     }
     .carousel-subheading {
-      font-size: calc(var(--base-font-size) * 1) !important; /* 17.6px */
+      font-size: calc(var(--base-font-size) * 0.9) !important; /* 17.6px */
     }
     .carousel-hr {
       margin: var(--spacing-sm) 0 var(--spacing-sm) 0 !important;
