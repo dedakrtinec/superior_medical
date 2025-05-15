@@ -1,24 +1,43 @@
 ---
 // src/components/Carousel.astro
 import '/src/components/CarouselStyles.css'; // Importujte CSS soubor přímo v komponentě
+
 interface CarouselSlide {
   src: string;
+  mobileSrc?: string;
   alt: string;
+  width?: number;
+  height?: number;
+  mobileWidth?: number;
+  mobileHeight?: number;
   html?: string;
 }
+
 interface Props {
   slides: CarouselSlide[];
   id?: string;
 }
+
 const { slides, id = "carousel" } = Astro.props;
 ---
+
 <div class="carousel-container" id={id}>
   <div class="swiper">
     <div class="swiper-wrapper">
       {slides.map((slide) => (
         <div class="swiper-slide">
           <div class="image-wrapper">
-            <img src={slide.src} alt={slide.alt} />
+            {slide.mobileSrc ? (
+              <picture>
+                <source media="(max-width: 768px)" srcset={slide.mobileSrc} 
+                  width={slide.mobileWidth} height={slide.mobileHeight} />
+                <img src={slide.src} alt={slide.alt} 
+                  width={slide.width} height={slide.height} />
+              </picture>
+            ) : (
+              <img src={slide.src} alt={slide.alt} 
+                width={slide.width} height={slide.height} />
+            )}
             {slide.html && <Fragment set:html={slide.html} />}
           </div>
         </div>
@@ -29,6 +48,7 @@ const { slides, id = "carousel" } = Astro.props;
     <div class="swiper-button-next"></div>
   </div>
 </div>
+
 <style>
   .carousel-container {
     width: 100vw;
@@ -36,30 +56,37 @@ const { slides, id = "carousel" } = Astro.props;
     position: relative;
     overflow: hidden;
   }
+
   .swiper {
     width: 100%;
   }
+
   .image-wrapper {
     position: relative;
     width: 100%;
   }
+
   .image-wrapper img {
     display: block;
     width: 100%;
     height: auto;
   }
+
   .swiper-button-next,
   .swiper-button-prev {
     color: white;
     filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7));
   }
+
   .swiper-pagination-bullet {
     background: white;
     opacity: 0.7;
   }
+
   .swiper-pagination-bullet-active {
     opacity: 1;
   }
+
   @media (max-width: 768px) {
     .swiper-button-next,
     .swiper-button-prev {
@@ -67,13 +94,14 @@ const { slides, id = "carousel" } = Astro.props;
     }
   }
 </style>
+
 <script>
   import Swiper from 'swiper';
   import { Navigation, Pagination, Autoplay } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
-  
+
   function initSwiper() {
     const swiper = new Swiper('.swiper', {
       modules: [Navigation, Pagination, Autoplay],
@@ -94,7 +122,7 @@ const { slides, id = "carousel" } = Astro.props;
       },
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', initSwiper);
   document.addEventListener('astro:page-load', initSwiper);
 </script>
